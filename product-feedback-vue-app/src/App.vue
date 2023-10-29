@@ -3,7 +3,7 @@
         <TheSidebar />
         <div class="flex flex-col gap-6">
             <TheHeading />
-            <Suggestions />
+            <suggestions></suggestions>
         </div>
     </div>
 </template>

@@ -21,3 +21,26 @@ body {
     background-image: url("./assets/Oval.png");
 }
 
+.options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 48px;
+    border-bottom: 2px solid #F2F4FF;
+    cursor: pointer;
+}
+
+.options span:hover {
+    color: #AD1FEA;
+}
+
+.option {
+    margin-left: 24px;
+    color: #647196;
+    font-size: 14px;
+}
+
+.check {
+    margin-right: 24px
+}
