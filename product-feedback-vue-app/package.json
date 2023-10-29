@@ -9,7 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.0.18",
+    "@vue-hero-icons/outline": "^1.7.2",
     "class-variance-authority": "^0.7.0",
+    "sweetalert2": "^11.7.32",
     "vue": "^3.3.4"
   },
   "devDependencies": {

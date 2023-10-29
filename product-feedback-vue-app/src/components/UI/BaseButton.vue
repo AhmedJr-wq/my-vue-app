@@ -1,6 +1,6 @@
 <template>
-    <component :is="as" :class="btnClass">
-        <svg v-if="loading"
+    <button :class="btnClass">
+        <svg v-show="isLoading"
              class="animate-spin h-5 w-5 absolute"
              xmlns="http://www.w3.org/2000/svg"
              fill="none"
@@ -22,10 +22,10 @@
             >
             </path>
         </svg>
-        <span :class="[loading && 'invisible']">
+        <span :class="{'invisible' : isLoading}">
             <slot>{{ btnText }}</slot>
         </span>
-    </component>
+    </button>
 </template>
 
 
@@ -35,7 +35,10 @@ import {cva} from 'class-variance-authority'
 export default {
     props: {
         btnText: String,
-        loading: Boolean,
+        isLoading: {
+            type: Boolean,
+            default: false
+        },
         as: {
             type: String,
             default: 'button'

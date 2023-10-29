@@ -14,5 +14,10 @@ html {
 
 body {
     margin: 0;
+    background: #F7F8FD;
+}
+
+.sidebar_title_bg {
+    background-image: url("./assets/Oval.png");
 }
 

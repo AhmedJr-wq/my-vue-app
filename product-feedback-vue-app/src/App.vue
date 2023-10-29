@@ -1,19 +1,44 @@
 <template>
-    <HelloWorld />
-    <base-button as="a" btnText="Add Feedback" intent="primary" href="https://fonts.google.com/" loading></base-button>
-    <base-button btnText="Edit Feedback" intent="secondary" loading></base-button>
-    <base-button btnText="Delete" intent="danger" loading></base-button>
-    <base-button btnText="Cancel" intent="warning" loading></base-button>
+    <div class="w-4/5 max-w-[1110px] mx-auto mt-24 flex justify-between">
+        <TheSidebar />
+        <div class="flex flex-col gap-6">
+            <TheHeading />
+            <Suggestions />
+        </div>
+    </div>
 </template>
 
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import BaseButton from "./components/UI/BaseButton.vue";
+import Alert from "./components/UI/Alert.vue";
+import NotificationAlert from "./components/UI/NotificationAlert.vue";
+import TheHeading from "./components/nav/TheHeading.vue";
+import TheSidebar from "./components/nav/sidebar/TheSidebar.vue";
+import Suggestions from "./components/feedbacks/Suggestions.vue";
 
 export default {
     components: {
-        HelloWorld, BaseButton
+        Suggestions,
+        TheSidebar,
+        TheHeading,
+        BaseButton, Alert, NotificationAlert
+    },
+    data() {
+        return {
+            loading: false,
+            showAlert: false
+        }
+    },
+    methods: {
+        submit() {
+            this.loading = !this.loading
+            setTimeout(() => {
+                this.loading = !this.loading
+                this.showAlert = !this.showAlert
+            }, 1000)
+        },
+
     }
 }
 </script>
