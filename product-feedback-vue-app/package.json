@@ -13,7 +13,8 @@
     "@vue-hero-icons/outline": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "sweetalert2": "^11.7.32",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",

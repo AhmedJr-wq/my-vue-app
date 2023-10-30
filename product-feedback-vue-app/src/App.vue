@@ -3,7 +3,7 @@
         <TheSidebar />
         <div class="flex flex-col gap-6">
             <TheHeading />
-            <suggestions></suggestions>
+<!--            <suggestions></suggestions>-->
             <EmptySuggestion />
         </div>
     </div>
