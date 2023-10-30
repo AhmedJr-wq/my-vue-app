@@ -1,5 +1,5 @@
 <template>
-    <div class="w-[255px] h-[529px] bg-red-600 flex flex-col gap-6">
+    <div class="w-[255px] h-[529px] flex flex-col gap-6">
         <SidebarTitle />
         <SidebarTags />
         <SidebarRoadmap />

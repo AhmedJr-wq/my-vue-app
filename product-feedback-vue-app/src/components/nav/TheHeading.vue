@@ -1,5 +1,5 @@
 <template>
-    <div class="w-[825px] h-[72px] bg-[#373F68] rounded-[10px] flex items-center justify-between pl-6 pr-3">
+    <div class= "w-[825px] h-[72px] bg-[#373F68] rounded-[10px] flex items-center justify-between pl-6 pr-3">
         <div class=" flex gap-[38px] items-center">
             <div class="flex items-center gap-2">
                 <img src="../../assets/bulb.png" alt="bulb">
