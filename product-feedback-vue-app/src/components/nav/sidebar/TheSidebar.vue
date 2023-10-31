@@ -5,8 +5,17 @@
         <SidebarRoadmap />
     </div>
 </template>
-<script setup>
+<script>
 import SidebarTitle from "./SidebarTitle.vue";
 import SidebarTags from "./SidebarTags.vue";
 import SidebarRoadmap from "./SidebarRoadmap.vue";
+
+export default {
+    components: {
+        SidebarTitle,
+        SidebarTags,
+        SidebarRoadmap,
+    }
+
+}
 </script>

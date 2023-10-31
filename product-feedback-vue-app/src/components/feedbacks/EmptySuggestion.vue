@@ -6,7 +6,9 @@
                 <span class="text-[#3A4374] text-2xl font-bold text-center">There is no feedback yet.</span>
                 <p class="text-[#647196] text-md font-normal text-center mt-4">Got a suggestion? Found a bug that needs to be squashed? We love hearing about new ideas to improve our app.</p>
             </div>
+            <router-link to="/add-feedback">
                 <base-button class="mt-12">Add Feedback</base-button>
+            </router-link>
         </div>
     </div>
 </template>

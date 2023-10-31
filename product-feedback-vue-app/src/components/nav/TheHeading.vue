@@ -29,9 +29,9 @@
                 </div>
             </div>
         </div>
-        <base-button>
-            Add Feedback
-        </base-button>
+        <router-link to="/add-feedback" >
+            <base-button>Add Feedback</base-button>
+        </router-link>
     </div>
 </template>
 
@@ -62,6 +62,7 @@ export default {
         },
         selectedOption(option) {
             this.option = option
+            this.isMenuOpen = false
         }
     }
 

@@ -1,5 +1,5 @@
 <template>
-    <button :class="btnClass">
+    <button type="submit" :class="btnClass">
         <svg v-show="isLoading"
              class="animate-spin h-5 w-5 absolute"
              xmlns="http://www.w3.org/2000/svg"
