@@ -14,7 +14,8 @@
     "class-variance-authority": "^0.7.0",
     "sweetalert2": "^11.7.32",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
