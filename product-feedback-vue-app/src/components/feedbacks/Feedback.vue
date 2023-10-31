@@ -20,9 +20,9 @@
 </template>
 
 <script setup lang="js">
-    import FeedbackTitle from "./FeedbackTitle.vue";
-    import FeedbackCategory from "./FeedbackCategory.vue";
-    import Details from "./Details.vue";
+    import FeedbackTitle from "./addFeedback/FeedbackTitle.vue";
+    import FeedbackCategory from "./addFeedback/FeedbackCategory.vue";
+    import Details from "./addFeedback/FeedbackDetails.vue";
     import GoBackButton from "../UI/GoBackButton.vue";
 
     const goBack = () => {

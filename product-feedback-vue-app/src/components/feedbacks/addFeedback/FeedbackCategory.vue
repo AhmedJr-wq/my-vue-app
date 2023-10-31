@@ -13,23 +13,23 @@
         <div v-if="isMenuOpen" class="absolute top-28 w-full border bg-white shadow-md rounded-[10px] flex flex-col z-10">
             <div class="options"  @click="selectedOption('Feature')">
                 <span class="option category">Feature</span>
-                <img class="check" v-if="option === 'Feature'" src="../../assets/check.png" alt="check">
+                <img class="check" v-if="option === 'Feature'" src="../../../assets/check.png" alt="check">
             </div>
             <div class="options" @click="selectedOption('UI')">
                 <span class="option category">UI</span>
-                <img class="check" v-if="option === 'UI'" src="../../assets/check.png" alt="check">
+                <img class="check" v-if="option === 'UI'" src="../../../assets/check.png" alt="check">
             </div>
             <div class="options" @click="selectedOption('UX')">
                 <span class="option category">UX</span>
-                <img class="check" v-if="option === 'UX'" src="../../assets/check.png" alt="check">
+                <img class="check" v-if="option === 'UX'" src="../../../assets/check.png" alt="check">
             </div>
             <div class="options" @click="selectedOption('Enhancement')">
                 <span class="option category">Enhancement</span>
-                <img class="check" v-if="option === 'Enhancement'" src="../../assets/check.png" alt="check">
+                <img class="check" v-if="option === 'Enhancement'" src="../../../assets/check.png" alt="check">
             </div>
             <div class="options" @click="selectedOption('Bug')">
                 <span class="option category">Bug</span>
-                <img class="check" v-if="option === 'Bug'" src="../../assets/check.png" alt="check">
+                <img class="check" v-if="option === 'Bug'" src="../../../assets/check.png" alt="check">
             </div>
        </div>
     </div>
