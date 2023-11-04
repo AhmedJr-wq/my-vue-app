@@ -53,7 +53,7 @@ export default {
     },
     computed: {
         btnClass() {
-            return cva("inline-flex text-white items-center justify-center rounded-[10px] h-11 px-6 py-3 hover:transition duration-300 ease-in-out",
+            return cva("inline-flex text-white text-sm font-bold items-center justify-center rounded-[10px] h-11 px-6 py-3 hover:transition duration-300 ease-in-out",
                 {
                     variants: {
                         intent: {

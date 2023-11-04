@@ -4,7 +4,7 @@
         <form class="relative mt-[64px] bg-white w-full h-[657px] rounded-[10px]">
             <span class="absolute -top-7 left-[42px]"><img src="../../assets/create.png" alt="create"></span>
             <div class="relative top-[52px] px-[42px]">
-                <span class="text-2xl text-[#3A4374] font-bold">Create New Feedback</span>
+                <span class="text-2xl text-[#3A4374] font-bold">{{ feedbackType }}</span>
                 <FeedbackTitle />
                 <FeedbackCategory />
                 <Details />
@@ -24,6 +24,18 @@
     import FeedbackCategory from "./addFeedback/FeedbackCategory.vue";
     import Details from "./addFeedback/FeedbackDetails.vue";
     import GoBackButton from "../UI/GoBackButton.vue";
+    import { ref, computed } from 'vue';
+    import { useStore } from 'vuex';
+
+    const store = useStore();
+
+    const feedbackType = computed(() => {
+        if (store.state.feedbackType === 'Create New Feedback') {
+            return 'Create New Feedback';
+        } else {
+            return 'Edit Feedback';
+        }
+    });
 
     const goBack = () => {
         window.history.back();

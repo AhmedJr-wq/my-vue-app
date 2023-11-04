@@ -6,14 +6,15 @@
                 <span class="text-lg text-white font-bold">0 Suggestions</span>
             </div>
             <div class="hover:cursor-pointer">
-                <div class="text-sm text-[#F2F4FE] w-full min-w-[160px] flex items-center" @click="openMenu">
+                <button class="text-sm text-[#F2F4FE] w-full min-w-[160px] flex items-center" @click="openMenu">
                     Sort by : <b class="ml-1">{{ option }}</b>
                     <span v-html="arrowIcon" class="mt-1 ml-2"></span>
-                </div>
+                </button>
                 <div v-if="isMenuOpen" class="absolute top-[180px] w-[255px] border bg-white shadow-md rounded-[10px] flex flex-col z-10">
                     <div class="options">
                         <span class="option" @click="selectedOption('Most upvotes')">Most upvotes</span>
-                        <img class="check" v-if="option === 'Most upvotes'" src="../../assets/check.png" alt="check">                    </div>
+                        <img class="check" v-if="option === 'Most upvotes'" src="../../assets/check.png" alt="check">
+                    </div>
                     <div class="options">
                         <span class="option" @click="selectedOption('Least upvotes')">Least upvotes</span>
                         <img class="check" v-if="option === 'Least upvotes'" src="../../assets/check.png" alt="check">
@@ -35,36 +36,32 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import {computed, ref} from "vue";
 
-export default {
-    data() {
-        return {
-            isMenuOpen: false,
-            option: 'Most upvotes'
-        }
-    },
-    computed: {
-        arrowIcon() {
-            const arrowUp = `<svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 6l4-4 4 4" stroke="white" stroke-width="2" fill="none" fill-rule="evenodd" />
-                             </svg>`;
-            const arrowDown = `<svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M1 1l4 4 4-4" stroke="white" stroke-width="2" fill="none" fill-rule="evenodd" />
-                               </svg>`;
+const option = ref('Most upvotes')
+const isMenuOpen = ref(false)
 
-            return this.isMenuOpen ? arrowUp : arrowDown;
-        }
-    },
-    methods: {
-        openMenu() {
-            this.isMenuOpen = !this.isMenuOpen
-        },
-        selectedOption(option) {
-            this.option = option
-            this.isMenuOpen = false
-        }
-    }
 
+const arrowIcon = computed(() => {
+    const arrowUp = `<svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 6l4-4 4 4" stroke="white" stroke-width="2" fill="none" fill-rule="evenodd" />
+                     </svg>`;
+    const arrowDown = `<svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M1 1l4 4 4-4" stroke="white" stroke-width="2" fill="none" fill-rule="evenodd" />
+                       </svg>`;
+
+    return isMenuOpen.value ? arrowUp : arrowDown;
+
+})
+
+const openMenu = () => {
+     isMenuOpen.value = !isMenuOpen.value
 }
+
+const selectedOption = (option) => {
+    option.value = option
+    isMenuOpen.value = false
+}
+
 </script>

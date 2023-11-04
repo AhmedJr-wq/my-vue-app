@@ -6,7 +6,7 @@
         </label>
         <textarea type="text" class="w-full h-24 bg-[#F7F8FD] text-[15px] font-normal rounded-[5px] mt-4 px-6 py-[13px]
                     hover:border-[#4661E6] hover:cursor-pointer hover:ring-1 hover:ring-[#4661E6] focus:outline-none
-                    focus:border-[#4661E6] focus:ring-1 focus:ring-[#4661E6] text-[#4661E6]" />
+                    focus:border-[#4661E6] focus:ring-1 focus:ring-[#4661E6] text-[#3A4374]" />
     </div>
 </template>
 
