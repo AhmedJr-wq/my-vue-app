@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../components/Home.vue";
-import Feedback from "../components/feedbacks/AddFeedback.vue";
 import EditFeedback from "../components/feedbacks/FeedbackDetails.vue";
+import AddFeedback from "../components/feedbacks/AddFeedback.vue";
 
 
 const router = createRouter({
@@ -14,7 +14,7 @@ const router = createRouter({
         {
             name: 'add-feedback',
             path: '/add-feedback',
-            component: Feedback,
+            component: AddFeedback,
         },
         {
             name: 'feedback-detail',
@@ -28,6 +28,13 @@ const router = createRouter({
         //     component: Roadmap
         // }
     ],
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { top: 0, left: 0 };
+        }
+    }
 });
 
 export default router;

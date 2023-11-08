@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import {computed, defineProps} from "vue";
 
 const props = defineProps({
     id: String,
@@ -36,8 +36,8 @@ const props = defineProps({
 });
 
 //passing the suggestion id to view details of the suggestion
-const getFeedbackDetailLink = (id) => {
+const getFeedbackDetailLink = computed( () => (id) => {
     return `/feedback-detail/${id}`;
-};
+})
 
 </script>

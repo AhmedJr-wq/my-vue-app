@@ -11,20 +11,20 @@
                     <span v-html="arrowIcon" class="mt-1 ml-2"></span>
                 </button>
                 <div v-if="isMenuOpen" class="absolute top-[180px] w-[255px] border bg-white shadow-md rounded-[10px] flex flex-col z-10">
-                    <div class="options">
-                        <span class="option" @click="selectedOption('Most upvotes')">Most upvotes</span>
+                    <div class="options" @click="selectedOption('Most upvotes')">
+                        <span class="option">Most upvotes</span>
                         <img class="check" v-if="option === 'Most upvotes'" src="../../assets/check.png" alt="check">
                     </div>
-                    <div class="options">
-                        <span class="option" @click="selectedOption('Least upvotes')">Least upvotes</span>
+                    <div class="options" @click="selectedOption('Least upvotes')">
+                        <span class="option">Least upvotes</span>
                         <img class="check" v-if="option === 'Least upvotes'" src="../../assets/check.png" alt="check">
                     </div>
-                    <div class="options">
-                        <span class="option" @click="selectedOption('Most comments')">Most comments</span>
+                    <div class="options" @click="selectedOption('Most comments')">
+                        <span class="option">Most comments</span>
                         <img class="check" v-if="option === 'Most comments'" src="../../assets/check.png" alt="check">
                     </div>
-                    <div class="options">
-                        <span class="option" @click="selectedOption('Least comments')">Least comments</span>
+                    <div class="options" @click="selectedOption('Least comments')">
+                        <span class="option">Least comments</span>
                         <img class="check" v-if="option === 'Least comments'" src="../../assets/check.png" alt="check">
                     </div>
                 </div>
@@ -59,8 +59,8 @@ const openMenu = () => {
      isMenuOpen.value = !isMenuOpen.value
 }
 
-const selectedOption = (option) => {
-    option.value = option
+const selectedOption = (selected) => {
+    option.value = selected
     isMenuOpen.value = false
 }
 

@@ -5,7 +5,8 @@
             <TheHeading />
             <Suggestions v-if="feedbacks.length > 0"
                 v-for="feedback in feedbacks"
-                :key="feedback.id"
+                :key="feedback._id"
+                :id="feedback._id"
                 :title="feedback.title"
                 :description="feedback.description"
                 :upvotes="feedback.upvotes"
