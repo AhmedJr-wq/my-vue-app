@@ -1,21 +1,34 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const Feedback = require('../models/feedback');
 const router = express.Router();
 
-//GET all feedback
-router.get('/', async (req, res) => {
+// GET all feedback or get a single feedback by ID
+router.get('/:id?', async (req, res) => {
     try {
-        const feedback = await Feedback.find();
-        res.json(feedback);
+        if (req.params.id) {
+            const feedback = await Feedback.findById(req.params.id);
+
+            if (!feedback) {
+                return res.status(404).json({ msg: 'Feedback not found' });
+            }
+
+            res.status(200).json(feedback);
+        } else {
+            // If no ID is provided, fetch all feedback
+            const feedback = await Feedback.find();
+            res.json(feedback);
+        }
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ error: 'Server Error', message: err.message });
     }
 });
 
+// POST a new feedback
 router.post('/add-feedback', async (req, res) => {
     try {
-        const data=req.body;
+        const data = req.body;
         console.log(data);
         const feedback = await Feedback.create(data);
         res.json(feedback);
@@ -24,6 +37,5 @@ router.post('/add-feedback', async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
-
 
 module.exports = router;
