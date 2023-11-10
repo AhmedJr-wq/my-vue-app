@@ -32,7 +32,7 @@
         </div>
         <div v-else :class="headerClass('roadmap')">
             <router-link to="/">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-3">
                     <img src="../../assets/arrowleft.png" alt="arrowleft">
                     <span class="text-sm text-white font-bold hover:underline hover:underline-offset-2">Go back</span>
                 </div>
