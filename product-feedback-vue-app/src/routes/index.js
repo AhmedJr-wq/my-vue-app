@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../components/Home.vue";
+import Home from "../pages/Home.vue";
 import EditFeedback from "../components/feedbacks/FeedbackDetails.vue";
 import AddFeedback from "../components/feedbacks/AddFeedback.vue";
+import Roadmap from "../pages/Roadmap.vue";
 
 
 const router = createRouter({
@@ -22,11 +23,11 @@ const router = createRouter({
             component: EditFeedback,
             props: true,
         },
-        // {
-        //     name: 'roadmap',
-        //     path: '/roadmap',
-        //     component: Roadmap
-        // }
+        {
+            name: 'roadmap',
+            path: '/roadmap',
+            component: Roadmap
+        }
     ],
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {

@@ -12,6 +12,7 @@
             :upvotes="feedbackById.upvotes"
             :comments="commentsCount"
             :category="category"
+            :enableHover="false"
         />
         <div class="w-full bg-white rounded-[10px] mt-6 py-6 px-[34px]" v-if="commentsCount > 0">
             <span class="text-lg text-[#3A4374] font-bold">

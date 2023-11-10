@@ -19,10 +19,10 @@
     </div>
 </template>
 <script setup>
-import TheHeading from "./nav/TheHeading.vue";
-import TheSidebar from "./nav/sidebar/TheSidebar.vue";
-import Suggestions from "./feedbacks/suggestions/Suggestions.vue";
-import EmptySuggestion from "./feedbacks/suggestions/EmptySuggestion.vue";
+import TheHeading from "../components/nav/TheHeading.vue";
+import TheSidebar from "../components/nav/sidebar/TheSidebar.vue";
+import Suggestions from "../components/feedbacks/suggestions/Suggestions.vue";
+import EmptySuggestion from "../components/feedbacks/suggestions/EmptySuggestion.vue";
 import {computed} from "vue";
 import store from "../store/index.js";
 

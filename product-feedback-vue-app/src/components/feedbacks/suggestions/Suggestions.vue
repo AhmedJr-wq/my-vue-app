@@ -8,7 +8,7 @@
                     <span class="text-[13px] text-[#3A4374] font-bold mt-2">{{ upvotes }}</span>
                 </div>
                 <router-link :to="getFeedbackDetailLink( id )" class="flex flex-col">
-                    <span class="text-[18px] text-[#3A4374] font-bold hover:text-[#4661E6]">{{ title }}</span>
+                    <span :class="suggestionDetailClass">{{ title }}</span>
                     <span class="text-base text-[#647196] font-normal mb-3">{{ description }}</span>
                     <span>
                         <suggestions-tags :title="category"></suggestions-tags>
@@ -24,7 +24,8 @@
 </template>
 
 <script setup>
-import {computed, defineProps} from "vue";
+import {computed, defineProps, ref} from "vue";
+
 
 const props = defineProps({
     id: String,
@@ -32,7 +33,15 @@ const props = defineProps({
     description: String,
     upvotes: Number,
     comments: Number,
-    category: String
+    category: String,
+    enableHover: Boolean,
+    enableRoute: Boolean
+});
+
+const suggestionDetailClass = computed(() => {
+    return props.enableHover
+        ? 'text-[18px] text-[#3A4374] font-bold hover:text-[#4661E6]'
+        : 'text-[18px] text-[#3A4374] font-bold';
 });
 
 //passing the suggestion id to view details of the suggestion

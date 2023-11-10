@@ -1,9 +1,9 @@
 <template>
-    <div class= "w-[825px] h-[72px] bg-[#373F68] rounded-[10px] flex items-center justify-between pl-6 pr-3">
-        <div class=" flex gap-[38px] items-center">
+    <div :class="headerClass('home')">
+        <div class=" flex gap-[38px] items-center" v-if="type === 'home'">
             <div class="flex items-center gap-2">
                 <img src="../../assets/bulb.png" alt="bulb">
-                <span class="text-lg text-white font-bold">0 Suggestions</span>
+                <span class="text-lg text-white font-bold">{{ feedbacks.length}} Suggestions</span>
             </div>
             <div class="hover:cursor-pointer">
                 <button class="text-sm text-[#F2F4FE] w-full min-w-[160px] flex items-center" @click="openMenu">
@@ -30,6 +30,15 @@
                 </div>
             </div>
         </div>
+        <div v-else :class="headerClass('roadmap')">
+            <router-link to="/">
+                <div class="flex items-center gap-2">
+                    <img src="../../assets/arrowleft.png" alt="arrowleft">
+                    <span class="text-sm text-white font-bold hover:underline hover:underline-offset-2">Go back</span>
+                </div>
+            </router-link>
+            <span class="text-2xl text-white font-bold">Roadmap</span>
+        </div>
         <router-link to="/add-feedback" >
             <base-button>Add Feedback</base-button>
         </router-link>
@@ -38,9 +47,16 @@
 
 <script setup>
 import {computed, ref} from "vue";
+import store from "../../store/index.js";
+
+const { props } = defineProps(["type"]);
 
 const option = ref('Most upvotes')
 const isMenuOpen = ref(false)
+
+const feedbacks = computed(() => {
+    return store.state.feedbackList
+})
 
 
 const arrowIcon = computed(() => {
@@ -53,6 +69,12 @@ const arrowIcon = computed(() => {
 
     return isMenuOpen.value ? arrowUp : arrowDown;
 
+})
+
+const headerClass = computed(() => (type) => {
+    return type === 'home' ?
+        'w-[825px] bg-[#373F68] rounded-[10px] flex items-center justify-between pl-6 py-3.5 pr-4' :
+        'pl-4 py-3 pr-10'
 })
 
 const openMenu = () => {
