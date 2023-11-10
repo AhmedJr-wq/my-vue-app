@@ -19,7 +19,7 @@
             </span>
             <div class="w-full mt-7 mb-10"  v-for="comment in feedbackById.comments" :key="comment._id" :id="comment._id">
                 <div class="flex items-center gap-8">
-                    <img class="w-10 h-10 rounded-full bg-amber-950" :src="comment.user.image" :alt="comment.user.image"/>
+                    <img class="w-10 h-10 rounded-full bg-amber-950" :src="createUserImage(comment.user.name)" :alt="createUserImage(comment.user.name)"/>
                     <header class="w-[90%] flex justify-between items-center" >
                         <div class="flex items-center">
                             <div class="flex flex-col">
@@ -57,9 +57,12 @@ import store from "../../store/index.js";
 import { useRoute} from "vue-router";
 import NoComment from "../UI/NoComment.vue";
 import AddComment from "./AddComment.vue";
+import {createImageFromInitials} from "../../Utility/createImage.js";
+import {getRandomColor} from "../../Utility/getRandomColor.js";
 
 
 const route = useRoute();
+
 onMounted(() => {
     store.dispatch('getFeedbackById', route.params.id)
 })
@@ -68,28 +71,38 @@ const props = defineProps({
     goBack: {type: Function}
 })
 
-const showReply = ref({})
-const toggleShowReply = (commentId) => {
-    showReply.value[commentId] = !showReply.value[commentId]
-}
-
-const goBack = () => {
-    window.history.back();
-}
-
+//fetching the feedback by id from the store
 const feedbackById = computed(() => {
     return store.state.feedbackById
 })
 
+const showReply = ref({})
+//function to open and close individual reply section
+const toggleShowReply = (commentId) => {
+    showReply.value[commentId] = !showReply.value[commentId]
+}
+
+//function to go back to initial page
+const goBack = () => {
+    window.history.back();
+}
+
+//check comment length
 const commentsCount = computed(() => {
     const comments = feedbackById.value.comments;
     return comments ? comments.length : 0;
 })
 
+//change the first letter of the category to upper case
 const category = computed(() => {
     return feedbackById.value.category ?
     feedbackById.value.category.charAt(0).toUpperCase() + feedbackById.value.category.slice(1) : '';
 })
 
+//function to create user image from user's name
+const createUserImage = (userName) => {
+    const color = getRandomColor();
+    return createImageFromInitials(600, color, userName);
+};
 
 </script>
