@@ -6,7 +6,11 @@
                 <span class="text-lg text-white font-bold">{{ feedbacks.length}} Suggestions</span>
             </div>
             <div class="hover:cursor-pointer">
-                <button class="text-sm text-[#F2F4FE] w-full min-w-[160px] flex items-center" @click="openMenu">
+                <button
+                    class="text-sm text-[#F2F4FE] w-full min-w-[160px] flex items-center"
+                    :disabled="disableSort" :class="disableSort ? 'text-gray-400 cursor-not-allowed' : ''"
+                    @click="openMenu"
+                >
                     Sort by : <b class="ml-1">{{ option }}</b>
                     <span v-html="arrowIcon" class="mt-1 ml-2"></span>
                 </button>
@@ -58,7 +62,6 @@ const feedbacks = computed(() => {
     return store.state.feedbackList
 })
 
-
 const arrowIcon = computed(() => {
     const arrowUp = `<svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 6l4-4 4 4" stroke="white" stroke-width="2" fill="none" fill-rule="evenodd" />
@@ -73,8 +76,8 @@ const arrowIcon = computed(() => {
 
 const headerClass = computed(() => (type) => {
     return type === 'home' ?
-        'w-[825px] bg-[#373F68] rounded-[10px] flex items-center justify-between pl-6 py-3.5 pr-4' :
-        'pl-4 py-3 pr-10'
+        'bg-[#373F68] rounded-[10px] flex items-center justify-between pl-6 py-3.5 pr-4' :
+        'py-3'
 })
 
 const openMenu = () => {
@@ -85,5 +88,9 @@ const selectedOption = (selected) => {
     option.value = selected
     isMenuOpen.value = false
 }
+
+const disableSort = computed(() => {
+    return store.state.feedbackList.length === 0
+})
 
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="w-4/5 max-w-[1110px] mx-auto mt-24 mb-[129px] flex justify-between">
         <TheSidebar />
-        <div class="flex flex-col gap-6">
+        <div class="w-[825px] flex flex-col gap-6">
             <TheHeading type="home"/>
             <Suggestions v-if="feedbacks.length > 0"
                 v-for="feedback in feedbacks"
@@ -12,7 +12,7 @@
                 :upvotes="feedback.upvotes"
                 :comments="feedback.comments.length"
                 :category="feedback.category.charAt(0).toUpperCase() + feedback.category.slice(1)"
-                :enableHover="true"
+                type="home"
             />
             <EmptySuggestion v-else />
         </div>

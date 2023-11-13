@@ -3,7 +3,12 @@
         <div class="flex justify-between items-center">
             <h3 class="text-[18px] text-[#3A4374] font-bold">Roadmap</h3>
             <router-link to="/roadmap">
-                <span class="text-[#4661E6] text-sm font-medium cursor-pointer hover:text-[#8397F8] underline decoration-solid underline-offset-2">View</span>
+                <button class="text-[#4661E6] text-sm font-medium  hover:text-[#8397F8] underline decoration-solid underline-offset-2"
+                        :disabled="disableView"
+                        :class="disableView ? 'opacity-25 cursor-not-allowed' : 'cursor-pointer'"
+                >
+                    View
+                </button>
             </router-link>
         </div>
         <div class='mt-6 flex justify-between'>
@@ -29,3 +34,12 @@
         </div>
     </div>
 </template>
+
+<script setup>
+import {computed} from "vue";
+import store from "../../../store/index.js";
+
+const disableView = computed(() => {
+    return store.state.feedbackList.length === 0
+})
+</script>

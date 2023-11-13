@@ -1,8 +1,8 @@
 <template>
     <div class="relative mt-6 w-full">
         <label class="flex flex-col ">
-            <span class="text-sm text-[#3A4374] font-bold">Category</span>
-            <span class="text-sm text-[#647196] font-normal">Choose a category for your feedback</span>
+            <span class="text-sm text-[#3A4374] font-bold">Update Status</span>
+            <span class="text-sm text-[#647196] font-normal">Change feature status</span>
         </label>
         <div type="text" class="w-full bg-[#F7F8FD] text-[15px] font-normal rounded-[5px] mt-4 px-6 py-[13px]  text-[#4661E6] flex justify-between items-center cursor-pointer hover:border-[#4661E6] hover:ring-1 hover:ring-[#4661E6]"
              @click="openMenu"
@@ -11,27 +11,23 @@
             <span v-html="arrowIcon"></span>
         </div>
         <div v-if="isMenuOpen" class="absolute top-28 w-full border bg-white shadow-md rounded-[10px] flex flex-col z-10">
-            <div class="options"  @click="selectedOption('Feature')">
-                <span class="option category">Feature</span>
-                <img class="check" v-if="option === 'Feature'" src="../../../assets/check.png" alt="check">
+            <div class="options"  @click="selectedOption('Suggestion')">
+                <span class="option category">Suggestion</span>
+                <img class="check" v-if="option === 'Suggestion'" src="../../../assets/check.png" alt="check">
             </div>
-            <div class="options" @click="selectedOption('UI')">
-                <span class="option category">UI</span>
-                <img class="check" v-if="option === 'UI'" src="../../../assets/check.png" alt="check">
+            <div class="options" @click="selectedOption('Planned')">
+                <span class="option category">Planned</span>
+                <img class="check" v-if="option === 'Planned'" src="../../../assets/check.png" alt="check">
             </div>
-            <div class="options" @click="selectedOption('UX')">
-                <span class="option category">UX</span>
-                <img class="check" v-if="option === 'UX'" src="../../../assets/check.png" alt="check">
+            <div class="options" @click="selectedOption('In-progress')">
+                <span class="option category">In-progress</span>
+                <img class="check" v-if="option === 'In-progress'" src="../../../assets/check.png" alt="check">
             </div>
-            <div class="options" @click="selectedOption('Enhancement')">
-                <span class="option category">Enhancement</span>
-                <img class="check" v-if="option === 'Enhancement'" src="../../../assets/check.png" alt="check">
+            <div class="options" @click="selectedOption('Live')">
+                <span class="option category">Live</span>
+                <img class="check" v-if="option === 'Live'" src="../../../assets/check.png" alt="check">
             </div>
-            <div class="options" @click="selectedOption('Bug')">
-                <span class="option category">Bug</span>
-                <img class="check" v-if="option === 'Bug'" src="../../../assets/check.png" alt="check">
-            </div>
-       </div>
+        </div>
     </div>
 </template>
 
@@ -39,7 +35,7 @@
 import {computed, ref} from 'vue'
 
 const isMenuOpen = ref(false)
-const option = ref('Feature')
+const option = ref('Suggestion')
 
 
 const arrowIcon = computed( () => {
@@ -61,4 +57,5 @@ const selectedOption = (selected) => {
     option.value = selected
     isMenuOpen.value = false
 }
+
 </script>

@@ -29,45 +29,44 @@
 </template>
 
 
-<script>
+<script setup>
 import {cva} from 'class-variance-authority'
+import { defineProps, computed} from "vue";
 
-export default {
-    props: {
-        btnText: String,
-        isLoading: {
-            type: Boolean,
-            default: false
-        },
-        as: {
-            type: String,
-            default: 'button'
-        },
-        intent: {
-            type: String,
-            validator: value => {
-                return ['primary', 'secondary', 'success', 'warning'].includes(value)
-            },
-            default: 'primary'
-        }
+
+const props = defineProps({
+    btnText: String,
+    isLoading: {
+        type: Boolean,
+        default: false
     },
-    computed: {
-        btnClass() {
-            return cva("inline-flex text-white text-sm font-bold items-center justify-center rounded-[10px] h-11 px-6 py-3 hover:transition duration-300 ease-in-out",
-                {
-                    variants: {
-                        intent: {
-                            primary: 'bg-[#AD1FEA] hover:bg-[#C75AF6]',
-                            secondary: 'bg-[#4661E6] hover:bg-[#7C91F9]',
-                            danger: 'bg-[#D73737] hover:bg-[#E98888]',
-                            warning: 'bg-[#3A4374] '
-                        }
-                    }
-                }
-            )({intent: this.intent})
-        }
+    as: {
+        type: String,
+        default: 'button'
+    },
+    intent: {
+        type: String,
+        validator: value => {
+            return ['primary', 'secondary', 'success', 'warning'].includes(value)
+        },
+        default: 'primary'
     }
-}
+
+})
+
+const btnClass = computed( () => {
+    return cva("inline-flex text-white text-sm font-bold items-center justify-center rounded-[10px] h-11 px-6 py-3 hover:transition duration-300 ease-in-out",
+        {
+            variants: {
+                intent: {
+                    primary: 'bg-[#AD1FEA] hover:bg-[#C75AF6]',
+                    secondary: 'bg-[#4661E6] hover:bg-[#7C91F9]',
+                    danger: 'bg-[#D73737] hover:bg-[#E98888]',
+                    warning: 'bg-[#3A4374] '
+                }
+            }
+        })({intent: props.intent})
+})
 
 </script>
 

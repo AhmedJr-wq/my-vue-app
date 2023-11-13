@@ -1,7 +1,7 @@
 <template>
-    <div class="w-4/5 max-w-[825px] mx-auto mt-20 mb-[179px]">
+    <div class="max-w-[1110px] mx-auto mt-20 mb-[179px] bg-red-500">
         <TheHeading type="roadmap"/>
-        <div class="w-full h-[500px] bg-green-300 mt-12">
+        <div class="h-[500px] bg-green-300 mt-12">
 
         </div>
     </div>

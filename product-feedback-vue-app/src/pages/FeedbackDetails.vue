@@ -2,7 +2,9 @@
     <div class="w-4/5 max-w-[730px] mx-auto mt-24 mb-[129px]">
         <div class="flex justify-between items-center mb-6">
             <GoBackButton :goBack="goBack"/>
-            <base-button btnText="Edit Comment" intent="secondary"></base-button>
+            <router-link :to="editFeedbackDetail(feedbackById._id)">
+                <base-button btnText="Edit Feedback" intent="secondary"></base-button>
+            </router-link>
         </div>
         <Suggestions
             :key="feedbackById._id"
@@ -12,7 +14,7 @@
             :upvotes="feedbackById.upvotes"
             :comments="commentsCount"
             :category="category"
-            :enableHover="false"
+            type="feedback"
         />
         <div class="w-full bg-white rounded-[10px] mt-6 py-6 px-[34px]" v-if="commentsCount > 0">
             <span class="text-lg text-[#3A4374] font-bold">
@@ -50,16 +52,16 @@
 
 
 <script setup>
-import BaseButton from "../UI/BaseButton.vue";
-import GoBackButton from "../UI/GoBackButton.vue";
+import BaseButton from "../components/UI/BaseButton.vue";
+import GoBackButton from "../components/UI/GoBackButton.vue";
 import {computed, onMounted, ref} from 'vue';
-import Suggestions from "./suggestions/Suggestions.vue";
-import store from "../../store/index.js";
+import Suggestions from "../components/feedbacks/suggestions/Suggestions.vue";
+import store from "../store/index.js";
 import { useRoute} from "vue-router";
-import NoComment from "../UI/NoComment.vue";
-import AddComment from "./AddComment.vue";
-import {createImageFromInitials} from "../../Utility/createImage.js";
-import {getRandomColor} from "../../Utility/getRandomColor.js";
+import NoComment from "../components/UI/NoComment.vue";
+import AddComment from "../components/feedbacks/AddComment.vue";
+import {createImageFromInitials} from "../Utility/createImage.js";
+import {getRandomColor} from "../Utility/getRandomColor.js";
 
 
 const route = useRoute();
@@ -69,7 +71,8 @@ onMounted(() => {
 })
 
 const props = defineProps({
-    goBack: {type: Function}
+    goBack: {type: Function},
+    type: String
 })
 
 //fetching the feedback by id from the store
@@ -105,5 +108,9 @@ const createUserImage = (userName) => {
     const color = getRandomColor();
     return createImageFromInitials(600, color, userName);
 };
+
+const editFeedbackDetail = computed( () => (id) => {
+    return `/edit-feedback/${id}`;
+})
 
 </script>
