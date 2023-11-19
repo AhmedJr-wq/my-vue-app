@@ -36,10 +36,13 @@
 </template>
 
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, getCurrentInstance, ref, watch} from 'vue'
 
-const isMenuOpen = ref(false)
-const option = ref('Feature')
+const isMenuOpen = ref(false),
+ option = ref('Feature')
+
+const props = defineProps(['data'])
+const emit = defineEmits(['option-selected'])
 
 
 const arrowIcon = computed( () => {
@@ -57,8 +60,16 @@ const arrowIcon = computed( () => {
 const openMenu = () => {
     isMenuOpen.value = !isMenuOpen.value
 }
+
 const selectedOption = (selected) => {
     option.value = selected
     isMenuOpen.value = false
+    emit('option-selected', selected)
 }
+
+
+// watch(() => props.data.category.value, (newValue) => {
+//     option.value = newValue;
+//     console.log(newValue)
+// })
 </script>

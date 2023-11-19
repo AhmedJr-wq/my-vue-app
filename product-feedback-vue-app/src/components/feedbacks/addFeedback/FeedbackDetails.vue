@@ -5,25 +5,24 @@
             <span class="text-sm text-[#647196] font-normal">Include any specific comments on what should be improved, added, etc.</span>
         </label>
         <textarea
+            v-model="data.detail.value"
             type="text"
             class="w-full h-24 bg-[#F7F8FD] text-[15px] text-[#4661E6] font-normal rounded-[5px] mt-4 px-6 py-[13px]
                     hover:border-[#4661E6] hover:cursor-pointer hover:ring-1 hover:ring-[#4661E6] focus:outline-none
                     focus:border-[#4661E6] focus:ring-1 focus:ring-[#4661E6]"
-            :class="{ invalid: isFeedbackDetailEmpty }"
-            @input="resetDetailForm"
+            :class="{ invalid: data.detail.isDetailError }"
+            @input="$emit('validate')"
         />
-        <span class="text-sm text-[#D73737] font-normal">{{ displayError }}</span>
+        <span class="text-sm text-[#D73737] font-normal" v-if="data.detail.isDetailError">Can't be empty</span>
     </div>
 </template>
 
 <script setup>
-
-const props = defineProps(['resetDetailForm', 'isFeedbackDetailEmpty', 'displayError', 'feedbackDetail'])
-
+const props = defineProps(['data'])
 </script>
 
 <style scoped>
 .invalid {
-    border: 1px solid #D73737;
+    border: 1px solid red;
 }
 </style>

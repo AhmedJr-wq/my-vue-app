@@ -7,20 +7,10 @@
             </span>
             <div class="relative top-[52px] px-[42px]">
                 <span class="text-2xl text-[#3A4374] font-bold">{{ title }}</span>
-                <FeedbackTitle
-                    :reset-title="resetTitleForm"
-                    :display-error="displayError"
-                    :isFeedbackTitleEmpty="isFeedbackTitleEmpty"
-                    :title="title"
-                />
-                <FeedbackCategory />
+                <FeedbackTitle :data="data" @validate="validateTitle"/>
+                <FeedbackCategory :data="data" @option-selected="updateCategory"/>
                 <FeedbackStatus v-if="type === 'Edit'"/>
-                <FeedbackDetails
-                    :reset-detail="resetDetailForm"
-                    :display-error="displayError"
-                    :isFeedbackDetailEmpty="isFeedbackDetailEmpty"
-                    :feedbackDetail="feedbackDetail"
-                />
+                <FeedbackDetails :data="data" @validate="validateDetail"/>
             </div>
             <div class="px-[42px] flex justify-between items-center">
                 <span class="relative float-left top-[70px]"><base-button v-if="type === 'Edit'" btnText="Delete" intent="danger"></base-button></span>
@@ -31,7 +21,6 @@
                     <base-button :btnText="displayText" intent="primary"></base-button>
                 </div>
             </div>
-
         </form>
     </div>
 </template>
@@ -40,7 +29,7 @@
 import FeedbackTitle from "../components/feedbacks/addFeedback/FeedbackTitle.vue";
 import FeedbackCategory from "../components/feedbacks/addFeedback/FeedbackCategory.vue";
 import GoBackButton from "../components/UI/GoBackButton.vue";
-import {computed, ref} from 'vue';
+import {computed, ref, watch} from 'vue';
 import FeedbackStatus from "../components/feedbacks/addFeedback/FeedbackStatus.vue";
 import createImage from '../assets/create.png';
 import editImage from '../assets/edit.png';
@@ -48,15 +37,20 @@ import BaseButton from "../components/UI/BaseButton.vue";
 import store from "../store/index.js";
 import FeedbackDetails from "../components/feedbacks/addFeedback/FeedbackDetails.vue";
 
-
-const feedbackTitle = ref('');
-const feedbackDetail = ref('');
-const isFeedbackTitleEmpty = ref(false);
-const isFeedbackDetailEmpty = ref(false);
-const displayError = ref('');
-
 const props = defineProps({
     type : String
+})
+
+const data = ref({
+    title: {
+        value: '',
+        isTitleError: false
+    },
+    category: { value: ''},
+    detail: {
+        value: '',
+        isDetailError: false
+    }
 })
 
 //fetching the feedback by id from the store
@@ -74,7 +68,7 @@ const imageSource = computed(() => {
 
 const title = computed(() => {
     if (props.type === 'Edit' && feedbackById.value) {
-        return `Editting '${feedbackById.value.title}'`;
+        return `Editing '${feedbackById.value.title}'`;
     } else {
         return 'Create New Feedback';
     }
@@ -89,29 +83,27 @@ const formClass = computed(() => {
     return props.type === 'Edit' ? 'h-[800px]' : 'h-[657px]'
 })
 
-const resetTitleForm = () => {
-    isFeedbackTitleEmpty.value = false;
-    displayError.value = '';
+const validateTitle = () => {
+    data.value.title.isTitleError = data.value.title.value === '';
 }
 
-const resetDetailForm = () => {
-    isFeedbackDetailEmpty.value = false;
-    displayError.value = '';
+const validateDetail = () => {
+    data.value.detail.isDetailError = data.value.detail.value === '';
+}
+
+
+const updateCategory = (selectedOption) => {
+    data.value.category.value = selectedOption
 }
 
 const postFeedback = () => {
-    if (!feedbackTitle.value.trim()) {
-        isFeedbackTitleEmpty.value = true;
-        displayError.value = "Can't be empty";
-    } else if (!feedbackDetail.value.trim()) {
-        isFeedbackDetailEmpty.value = true;
-        displayError.value = "Can't be empty";
-    } else {
-        console.log(feedbackTitle.value, feedbackDetail.value);
-        feedbackTitle.value = '';
-        feedbackDetail.value = '';
-        displayError.value = '';
-    }
+    validateTitle()
+    validateDetail()
+    data.value.title.value = ''
+    data.value.detail.value = ''
+    console.log('submitted')
 }
+
+
 
 </script>

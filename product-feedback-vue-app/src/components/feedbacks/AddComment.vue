@@ -23,9 +23,9 @@
 import BaseButton from "../UI/BaseButton.vue";
 import {computed, ref} from "vue";
 
-const comment = ref('');
-const isCommentEmpty = ref(false);
-const displayError = ref('')
+const comment = ref(''),
+ isCommentEmpty = ref(false),
+ displayError = ref('')
 
 //function to reset validation
 const resetValidation = () => {

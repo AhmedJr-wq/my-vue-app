@@ -66,8 +66,8 @@ const arrowIcon = computed(() => {
     const arrowUp = `<svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 6l4-4 4 4" stroke="white" stroke-width="2" fill="none" fill-rule="evenodd" />
                      </svg>`;
-    const arrowDown = `<svg width="10" height="7" xmlns="http://www.w3.org/2000/svg">
-                         <path d="M1 1l4 4 4-4" stroke="white" stroke-width="2" fill="none" fill-rule="evenodd" />
+    const arrowDown = `<svg width="10" height="7" xmlns="http://www.w3.org/2000/svg" :style="{ color: feedbacks.length === 0 ? 'bg-gray-100' : 'white' }">
+                         <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd" />
                        </svg>`;
 
     return isMenuOpen.value ? arrowUp : arrowDown;

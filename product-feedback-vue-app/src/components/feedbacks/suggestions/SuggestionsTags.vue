@@ -4,8 +4,8 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: ['title']
-}
+<script setup>
+
+const props = defineProps(['title'])
+
 </script>
