@@ -66,10 +66,4 @@ const selectedOption = (selected) => {
     isMenuOpen.value = false
     emit('option-selected', selected)
 }
-
-
-// watch(() => props.data.category.value, (newValue) => {
-//     option.value = newValue;
-//     console.log(newValue)
-// })
 </script>
