@@ -1,22 +1,51 @@
 <template>
     <div class="max-w-[1110px] mx-auto mt-20 mb-[179px]">
         <TheHeading type="roadmap"/>
-        <div class="h-[500px] bg-green-300 mt-12">
-            <div class="bg-white mb-8">
-                <h3 class="text-[#3A4374] text-lg font-bold">Planned (2)</h3>
-                <p class="text-[#647196] text-base font-normal">Hello this is a template</p>
+        <nav class="block sm:hidden">
+            <ul class="h-[52px]">
+                <TabNavItem :title="'Planned'" />
+                <TabNavItem :title="'In Progress'" />
+                <TabNavItem :title="'Live'"/>
+            </ul>
+        </nav>
+        <div class="block">
+            <div class="w-full flex gap-x-[30px] gap-y-[30px]">
+                <TabContent :tabId="'planned'">
+                    <RequestedProducts
+                        product-request-name="Planned"
+                        product-request-description="Ideas prioritized for research"
+                        :productRequests="store.state.plannedRequestProducts"
+                    />
+                </TabContent>
+                <TabContent :tabId="'in-progress'">
+                    <RequestedProducts
+                        product-request-name="In Progress"
+                        product-request-description="Currently being developed"
+                        :productRequests="store.state.inProgressRequestProducts"
+                    />
+                </TabContent>
+                <TabContent :tabId="'live'">
+                    <RequestedProducts
+                        product-request-name="Live"
+                        product-request-description="Released features"
+                        :productRequests="store.state.liveRequestProducts"
+                    />
+                </TabContent>
             </div>
-            <ComponentBox />
         </div>
     </div>
 </template>
 <script setup>
 import TheHeading from "../components/nav/TheHeading.vue";
-import ComponentBox from "../components/roadmap/ComponentBox.vue";
-import {computed} from "vue";
+import {onMounted} from "vue";
 import store from "../store/index.js";
+import TabNavItem from "../components/roadmap/tabs/TabNavItem.vue";
+import TabContent from "../components/roadmap/tabs/TabContent.vue";
+import RequestedProducts from "../components/roadmap/RequestedProducts.vue";
 
-const feedbacks = computed(() => {
-    return store.state.feedbackList
+onMounted(() => {
+    store.dispatch('productsData')
 })
+
+
 </script>
