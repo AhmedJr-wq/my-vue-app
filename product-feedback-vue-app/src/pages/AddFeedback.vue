@@ -104,10 +104,14 @@ const postFeedback = () => {
         category: data.value.category.value,
         description: data.value.description.value
     }
-    data.value.title.value = ''
-    data.value.description.value = ''
-    data.value.category.value = 'Feature'
-    return store.dispatch('postFeedback', newFeedback)
+    if(data.value.title.value === '' || data.value.description.value === '') {
+        return false
+    } else {
+        data.value.title.value = ''
+        data.value.description.value = ''
+        data.value.category.value = 'Feature'
+        return store.dispatch('postFeedback', newFeedback)
+    }
 }
 
 </script>
