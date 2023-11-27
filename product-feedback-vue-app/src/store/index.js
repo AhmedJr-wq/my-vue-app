@@ -30,8 +30,16 @@ export default createStore({
             state.allRequestProducts = allRequestProducts;
         }
     },
+    getters: {
+        getFeedbackList: (state) => state.feedbackList,
+        getFeedbackById: (state) => state.feedbackById,
+        getPlannedRequestProducts: (state) => state.plannedRequestProducts,
+        getInProgressRequestProducts: (state) => state.inProgressRequestProducts,
+        getLiveRequestProducts: (state) => state.liveRequestProducts,
+        getAllRequestProducts: (state) => state.allRequestProducts
+    },
     actions: {
-        getFeedbackList({ commit }) {
+        getFeedbackList({ commit, dispatch }) {
             // GET request to API endpoint that fetches feedback data
             axios.get('http://localhost:9000/feedback')
                 .then((response) => {
@@ -39,6 +47,21 @@ export default createStore({
                 })
                 .catch((error) => {
                     console.error('Error fetching feedback data:', error);
+                });
+                dispatch('productsData');
+        },
+        postFeedback({ commit }, feedback) {
+            // POST request to API endpoint that adds feedback data
+            axios.post('http://localhost:9000/feedback', feedback, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((response) => {
+                    commit('getFeedbackList', response.data);
+                })
+                .catch((error) => {
+                    console.error('Error posting feedback data:', error);
                 });
         },
         getFeedbackById({ commit }, id) {
@@ -62,12 +85,12 @@ export default createStore({
                     let live = [];
 
                     state.allRequestProducts.forEach((item) => {
-                        if (item.status.toLowerCase() === 'planned') {
+                        if (item.status?.toLowerCase() === 'planned') {
                             planned.push(item);
-                        } else if (item.status.toLowerCase() === 'in-progress') {
+                        } else if (item.status?.toLowerCase() === 'in-progress') {
                             inProgress.push(item);
                         } else {
-                            if(item.status.toLowerCase() === 'live') {
+                            if(item.status?.toLowerCase() === 'live') {
                                 live.push(item);
                             }
                         }

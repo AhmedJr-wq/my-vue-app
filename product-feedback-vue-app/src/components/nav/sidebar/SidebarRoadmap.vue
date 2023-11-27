@@ -37,21 +37,22 @@
 
 <script setup>
 import {computed} from "vue";
-import store from "../../../store/index.js";
+import {useStore} from "vuex";
 
+const store = useStore()
 const disableView = computed(() => {
-    return store.state.feedbackList.length === 0
+    return store.getters.getFeedbackList.length === 0
 })
 
 const plannedRequests = computed(() => {
-    return store.state.plannedRequestProducts.length
+    return store.getters.getPlannedRequestProducts.length
 })
 
 const inProgressRequests = computed(() => {
-    return store.state.inProgressRequestProducts.length
+    return store.getters.getInProgressRequestProducts.length
 })
 
 const liveRequests = computed(() => {
-    return store.state.liveRequestProducts.length
+    return store.getters.getLiveRequestProducts.length
 })
 </script>

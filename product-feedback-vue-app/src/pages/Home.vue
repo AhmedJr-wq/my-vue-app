@@ -23,15 +23,20 @@ import TheHeading from "../components/nav/TheHeading.vue";
 import TheSidebar from "../components/nav/sidebar/TheSidebar.vue";
 import Suggestions from "../components/feedbacks/suggestions/Suggestions.vue";
 import EmptySuggestion from "../components/feedbacks/suggestions/EmptySuggestion.vue";
-import {computed} from "vue";
-import store from "../store/index.js";
+import {computed, onMounted} from "vue";
+import {useStore} from "vuex";
 
+const store = useStore()
 const props = defineProps({
     type: String
 })
 
 const feedbacks = computed(() => {
-    return store.state.feedbackList
+    return store.getters.getFeedbackList
+})
+
+onMounted(()=> {
+    store.dispatch('getFeedbackList')
 })
 
 </script>

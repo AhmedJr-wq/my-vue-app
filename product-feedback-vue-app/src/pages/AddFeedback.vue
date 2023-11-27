@@ -18,7 +18,7 @@
                     <router-link to="/">
                         <base-button btnText="Cancel" intent="secondary"></base-button>
                     </router-link>
-                    <base-button :btnText="displayText" intent="primary"></base-button>
+                    <base-button :btnText="displayText" intent="primary" @click.prevent="postFeedback"></base-button>
                 </div>
             </div>
         </form>
@@ -29,7 +29,7 @@
 import FeedbackTitle from "../components/feedbacks/addFeedback/FeedbackTitle.vue";
 import FeedbackCategory from "../components/feedbacks/addFeedback/FeedbackCategory.vue";
 import GoBackButton from "../components/UI/GoBackButton.vue";
-import {computed, ref, watch} from 'vue';
+import {computed, ref} from 'vue';
 import FeedbackStatus from "../components/feedbacks/addFeedback/FeedbackStatus.vue";
 import createImage from '../assets/create.png';
 import editImage from '../assets/edit.png';
@@ -46,10 +46,10 @@ const data = ref({
         value: '',
         isTitleError: false
     },
-    category: { value: ''},
-    detail: {
+    category: { value: 'Feature'},
+    description: {
         value: '',
-        isDetailError: false
+        isDescriptionError: false
     }
 })
 
@@ -88,7 +88,7 @@ const validateTitle = () => {
 }
 
 const validateDetail = () => {
-    data.value.detail.isDetailError = data.value.detail.value === '';
+    data.value.description.isDescriptionError = data.value.description.value === '';
 }
 
 
@@ -99,11 +99,15 @@ const updateCategory = (selectedOption) => {
 const postFeedback = () => {
     validateTitle()
     validateDetail()
+    const newFeedback = {
+        title: data.value.title.value,
+        category: data.value.category.value,
+        description: data.value.description.value
+    }
     data.value.title.value = ''
-    data.value.detail.value = ''
-    console.log('submitted')
+    data.value.description.value = ''
+    data.value.category.value = 'Feature'
+    return store.dispatch('postFeedback', newFeedback)
 }
-
-
 
 </script>

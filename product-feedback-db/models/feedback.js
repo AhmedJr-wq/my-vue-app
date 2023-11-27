@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const productRequests = new mongoose.Schema({
-    id: Number,
+    // id: Number,
     title: String,
     category: String,
     upvotes: Number,

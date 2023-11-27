@@ -26,15 +26,14 @@ router.get('/:id?', async (req, res) => {
 });
 
 // POST a new feedback
-router.post('/add-feedback', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const data = req.body;
-        console.log(data);
         const feedback = await Feedback.create(data);
         res.json(feedback);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({error: 'Server Error'});
     }
 });
 

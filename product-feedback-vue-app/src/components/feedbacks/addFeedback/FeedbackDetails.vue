@@ -5,15 +5,15 @@
             <span class="text-sm text-[#647196] font-normal">Include any specific comments on what should be improved, added, etc.</span>
         </label>
         <textarea
-            v-model="data.detail.value"
+            v-model="data.description.value"
             type="text"
             class="w-full h-24 bg-[#F7F8FD] text-[15px] text-[#4661E6] font-normal rounded-[5px] mt-4 px-6 py-[13px]
                     hover:border-[#4661E6] hover:cursor-pointer hover:ring-1 hover:ring-[#4661E6] focus:outline-none
                     focus:border-[#4661E6] focus:ring-1 focus:ring-[#4661E6]"
-            :class="{ invalid: data.detail.isDetailError }"
+            :class="{ invalid: data.description.isDescriptionError }"
             @input="$emit('validate')"
         />
-        <span class="text-sm text-[#D73737] font-normal" v-if="data.detail.isDetailError">Can't be empty</span>
+        <span class="text-sm text-[#D73737] font-normal" v-if="data.description.isDescriptionError">Can't be empty</span>
     </div>
 </template>
 
