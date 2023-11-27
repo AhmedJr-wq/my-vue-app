@@ -16,21 +16,21 @@
                 <div class='w-2 h-2 rounded-full bg-[#F49F85] mr-4'></div>
                 <span class='text-base text-[#647196]'>Planned</span>
             </div>
-            <span class="text-base text-[#647196] font-bold">0</span>
+            <span class="text-base text-[#647196] font-bold">{{ plannedRequests }}</span>
         </div>
         <div class='mt-2 flex justify-between'>
             <div class="flex items-center">
                 <div class='w-2 h-2 rounded-full bg-[#AD1FEA] mr-4'></div>
                 <span class='text-base text-[#647196]'>In-progress</span>
             </div>
-            <span class="text-base text-[#647196] font-bold">0</span>
+            <span class="text-base text-[#647196] font-bold">{{ inProgressRequests }}</span>
         </div>
         <div class='mt-2 flex justify-between'>
             <div class="flex items-center">
                 <div class='w-2 h-2 rounded-full bg-[#62BCFA] mr-4'></div>
                 <span class='text-base text-[#647196]'>Live</span>
             </div>
-            <span class="text-base text-[#647196] font-bold">0</span>
+            <span class="text-base text-[#647196] font-bold">{{ liveRequests }}</span>
         </div>
     </div>
 </template>
@@ -41,5 +41,17 @@ import store from "../../../store/index.js";
 
 const disableView = computed(() => {
     return store.state.feedbackList.length === 0
+})
+
+const plannedRequests = computed(() => {
+    return store.state.plannedRequestProducts.length
+})
+
+const inProgressRequests = computed(() => {
+    return store.state.inProgressRequestProducts.length
+})
+
+const liveRequests = computed(() => {
+    return store.state.liveRequestProducts.length
 })
 </script>

@@ -7,7 +7,7 @@
             <p class="text-[#647196] text-base font-normal">{{ status }}</p>
         </div>
         <div class="mt-2">
-            <h3 class="text-[#3A4374] text-lg font-bold">{{ title }}</h3>
+            <h3 class="text-[#3A4374] text-lg font-bold hover:text-[#4661E6] hover:cursor-pointer">{{ title }}</h3>
             <p class="text-[#647196] text-base font-normal mb-4">{{ description }}</p>
             <suggestions-tags :title="category"></suggestions-tags>
             <div class="flex justify-between items-center mt-4">
