@@ -9,6 +9,10 @@ export default createStore({
         inProgressRequestProducts: [],
         liveRequestProducts: [],
         allRequestProducts: [],
+        feedbackTitle: '',
+        feedbackDescription: '',
+        feedbackCategory: '',
+        feedbackStatus: '',
     },
     mutations: {
         getFeedbackList(state, feedbackList) {
@@ -28,6 +32,18 @@ export default createStore({
         },
         getAllRequestProducts(state, allRequestProducts) {
             state.allRequestProducts = allRequestProducts;
+        },
+        getFeedbackTitle(state, title) {
+            state.feedbackTitle = title;
+        },
+        getFeedbackDescription(state, description) {
+            state.feedbackDescription = description;
+        },
+        getFeedbackCategory(state, category) {
+            state.feedbackCategory = category;
+        },
+        getFeedbackStatus(state, status) {
+            state.feedbackStatus = status;
         }
     },
     getters: {
@@ -36,7 +52,11 @@ export default createStore({
         getPlannedRequestProducts: (state) => state.plannedRequestProducts,
         getInProgressRequestProducts: (state) => state.inProgressRequestProducts,
         getLiveRequestProducts: (state) => state.liveRequestProducts,
-        getAllRequestProducts: (state) => state.allRequestProducts
+        getAllRequestProducts: (state) => state.allRequestProducts,
+        getFeedbackTitle: (state) => state.feedbackTitle,
+        getFeedbackDescription: (state) => state.feedbackDescription,
+        getFeedbackCategory: (state) => state.feedbackCategory,
+        getFeedbackStatus: (state) => state.feedbackStatus
     },
     actions: {
         getFeedbackList({ commit, dispatch }) {
@@ -64,16 +84,50 @@ export default createStore({
                     console.error('Error posting feedback data:', error);
                 });
         },
-        getFeedbackById({ commit }, id) {
-            // GET request to API endpoint that fetches feedback data by id
-            axios.get(`http://localhost:9000/feedback/${id}`)
+        deleteFeedback({ commit }, id) {
+            // DELETE request to API endpoint that deletes feedback data
+            axios.delete(`http://localhost:9000/feedback/${id}`)
                 .then((response) => {
-                    commit('getFeedbackById', response.data);
+                    commit('getFeedbackList', response.data);
                 })
                 .catch((error) => {
-                    console.error('Error fetching feedback data:', error);
+                    console.error('Error deleting feedback data:', error);
                 });
         },
+        editFeedback({ commit }, id) {
+            // PUT request to API endpoint that edits feedback data
+            axios.patch(`http://localhost:9000/feedback/${id}`)
+                .then((response) => {
+                    commit('getFeedbackList', response.data);
+                })
+                .catch((error) => {
+                    console.error('Error editing feedback data:', error);
+                });
+        },
+        async getFeedbackById({ commit }, id) {
+            // GET request to API endpoint that fetches feedback data by id
+           const response= await axios.get(`http://localhost:9000/feedback/${id}`)
+                // .then((response) => {
+                    commit('getFeedbackById', response.data);
+                //
+                    let title = response.data.title;
+                    let description = response.data.description;
+                    let category = response.data.category;
+                    let status = response.data.status;
+
+                    // console.log('title', title);
+
+                    commit('getFeedbackTitle', title);
+                    commit('getFeedbackDescription', description);
+                    commit('getFeedbackCategory', category);
+                    commit('getFeedbackStatus', status);
+                //
+                // })
+                // .catch((error) => {
+                //     console.error('Error fetching feedback data:', error);
+                // });
+        },
+
         productsData({ commit, state }) {
             // GET request to API endpoint that fetches products data
             axios.get('http://localhost:9000/feedback')

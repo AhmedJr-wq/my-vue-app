@@ -7,7 +7,7 @@
         <div type="text" class="w-full bg-[#F7F8FD] text-[15px] font-normal rounded-[5px] mt-4 px-6 py-[13px]  text-[#4661E6] flex justify-between items-center cursor-pointer hover:border-[#4661E6] hover:ring-1 hover:ring-[#4661E6]"
              @click="openMenu"
         >
-            {{ option }}
+            {{ data.status.value }}
             <span v-html="arrowIcon"></span>
         </div>
         <div v-if="isMenuOpen" class="absolute top-28 w-full border bg-white shadow-md rounded-[10px] flex flex-col z-10">
@@ -34,8 +34,11 @@
 <script setup>
 import {computed, ref} from 'vue'
 
-const isMenuOpen = ref(false)
-const option = ref('Suggestion')
+const props = defineProps(['data'])
+const emit = defineEmits(['option-selected'])
+
+const isMenuOpen = ref(false),
+ option = ref('Suggestion')
 
 
 const arrowIcon = computed( () => {
@@ -56,6 +59,7 @@ const openMenu = () => {
 const selectedOption = (selected) => {
     option.value = selected
     isMenuOpen.value = false
+    emit('option-selected', selected)
 }
 
 </script>

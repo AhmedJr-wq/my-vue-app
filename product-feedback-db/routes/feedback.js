@@ -37,4 +37,39 @@ router.post('/', async (req, res) => {
     }
 });
 
+// EDIT a feedback by ID
+router.patch('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const data = req.body;
+        const feedback = await Feedback.findByIdAndUpdate(id, data, { new: true });
+
+        if (!feedback) {
+            return res.status(404).json({ msg: 'Feedback not found' });
+        }
+
+        res.json(feedback);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Server Error', message: err.message });
+    }
+});
+
+// DELETE a feedback by ID
+router.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const feedback = await Feedback.findByIdAndDelete(id);
+
+        if (!feedback) {
+            return res.status(404).json({ msg: 'Feedback not found' });
+        }
+
+        res.json({ msg: 'Feedback deleted successfully' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Server Error', message: err.message });
+    }
+});
+
 module.exports = router;

@@ -4,6 +4,7 @@ import AddFeedback from "../pages/AddFeedback.vue";
 import Roadmap from "../pages/Roadmap.vue";
 import EditFeedback from "../pages/EditFeedback.vue";
 import FeedbackDetails from "../pages/FeedbackDetails.vue";
+import {useStore} from "vuex";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -32,6 +33,11 @@ const router = createRouter({
             name: 'edit-feedback',
             path: '/edit-feedback/:id',
             component: EditFeedback,
+            beforeEnter: async (to, from, next) => {
+                const store = useStore()
+                await store.dispatch('getFeedbackById', to.params.id)
+                next()
+            },
             props: true
         }
     ],

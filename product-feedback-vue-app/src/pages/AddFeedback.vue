@@ -7,13 +7,15 @@
             </span>
             <div class="relative top-[52px] px-[42px]">
                 <span class="text-2xl text-[#3A4374] font-bold">{{ title }}</span>
-                <FeedbackTitle :data="data" @validate="validateTitle"/>
-                <FeedbackCategory :data="data" @option-selected="updateCategory"/>
-                <FeedbackStatus v-if="type === 'Edit'"/>
-                <FeedbackDetails :data="data" @validate="validateDetail"/>
+                <FeedbackTitle :data="data" @validate="validateTitle" type="Edit"/>
+                <FeedbackCategory :data="data" @option-selected="updateCategory" type="Edit"/>
+                <FeedbackStatus :data="data" @option-selected="updateStatus" v-if="type === 'Edit'" />
+                <FeedbackDetails :data="data" @validate="validateDetail" type="Edit"/>
             </div>
             <div class="px-[42px] flex justify-between items-center">
-                <span class="relative float-left top-[70px]"><base-button v-if="type === 'Edit'" btnText="Delete" intent="danger"></base-button></span>
+                <span class="relative float-left top-[70px]">
+                    <base-button v-if="type === 'Edit'" btnText="Delete" intent="danger" @click.prevent="deleteFeedback"></base-button>
+                </span>
                 <div class="relative float-right top-[70px] flex gap-x-4 ">
                     <router-link to="/">
                         <base-button btnText="Cancel" intent="secondary"></base-button>
@@ -29,17 +31,25 @@
 import FeedbackTitle from "../components/feedbacks/addFeedback/FeedbackTitle.vue";
 import FeedbackCategory from "../components/feedbacks/addFeedback/FeedbackCategory.vue";
 import GoBackButton from "../components/UI/GoBackButton.vue";
-import {computed, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import FeedbackStatus from "../components/feedbacks/addFeedback/FeedbackStatus.vue";
 import createImage from '../assets/create.png';
 import editImage from '../assets/edit.png';
 import BaseButton from "../components/UI/BaseButton.vue";
-import store from "../store/index.js";
 import FeedbackDetails from "../components/feedbacks/addFeedback/FeedbackDetails.vue";
+import {useRoute} from "vue-router";
+import {useStore} from "vuex";
 
 const props = defineProps({
     type : String
 })
+
+const route = useRoute();
+const store = useStore();
+
+// onMounted(() => {
+//     store.dispatch('getFeedbackById', route.params.id)
+// })
 
 const data = ref({
     title: {
@@ -47,6 +57,7 @@ const data = ref({
         isTitleError: false
     },
     category: { value: 'Feature'},
+    status: { value: 'Suggestion'},
     description: {
         value: '',
         isDescriptionError: false
@@ -55,7 +66,7 @@ const data = ref({
 
 //fetching the feedback by id from the store
 const feedbackById = computed(() => {
-    return store.state.feedbackById
+    return store.getters.getFeedbackById
 })
 
 const goBack = () => {
@@ -96,6 +107,10 @@ const updateCategory = (selectedOption) => {
     data.value.category.value = selectedOption
 }
 
+const updateStatus = (selectedOption) => {
+    data.value.status.value = selectedOption
+}
+
 const postFeedback = () => {
     validateTitle()
     validateDetail()
@@ -112,6 +127,11 @@ const postFeedback = () => {
         data.value.category.value = 'Feature'
         return store.dispatch('postFeedback', newFeedback)
     }
+}
+
+const deleteFeedback = () => {
+    console.log('deleted')
+    return store.dispatch('deleteFeedback', feedbackById.value._id)
 }
 
 </script>
