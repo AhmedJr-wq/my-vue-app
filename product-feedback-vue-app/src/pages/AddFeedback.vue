@@ -7,10 +7,27 @@
             </span>
             <div class="relative top-[52px] px-[42px]">
                 <span class="text-2xl text-[#3A4374] font-bold">{{ title }}</span>
-                <FeedbackTitle :data="data" @validate="validateTitle" type="Edit"/>
-                <FeedbackCategory :data="data" @option-selected="updateCategory" type="Edit"/>
-                <FeedbackStatus :data="data" @option-selected="updateStatus" v-if="type === 'Edit'" />
-                <FeedbackDetails :data="data" @validate="validateDetail" type="Edit"/>
+                <FeedbackTitle
+                    :data="data"
+                    @validate="validateTitle"
+                    type="Edit"
+                />
+                <FeedbackCategory
+                    :data="data"
+                    @option-selected="updateCategory"
+                    type="Edit"
+                />
+                <FeedbackStatus
+                    v-if="type === 'Edit'"
+                    :data="data"
+                    @option-selected="updateStatus"
+                    type="Edit"
+                />
+                <FeedbackDetails
+                    :data="data"
+                    @validate="validateDetail"
+                    type="Edit"
+                />
             </div>
             <div class="px-[42px] flex justify-between items-center">
                 <span class="relative float-left top-[70px]">
@@ -31,25 +48,19 @@
 import FeedbackTitle from "../components/feedbacks/addFeedback/FeedbackTitle.vue";
 import FeedbackCategory from "../components/feedbacks/addFeedback/FeedbackCategory.vue";
 import GoBackButton from "../components/UI/GoBackButton.vue";
-import {computed, onMounted, ref} from 'vue';
+import {computed, ref} from 'vue';
 import FeedbackStatus from "../components/feedbacks/addFeedback/FeedbackStatus.vue";
 import createImage from '../assets/create.png';
 import editImage from '../assets/edit.png';
 import BaseButton from "../components/UI/BaseButton.vue";
 import FeedbackDetails from "../components/feedbacks/addFeedback/FeedbackDetails.vue";
-import {useRoute} from "vue-router";
 import {useStore} from "vuex";
 
 const props = defineProps({
     type : String
 })
 
-const route = useRoute();
 const store = useStore();
-
-// onMounted(() => {
-//     store.dispatch('getFeedbackById', route.params.id)
-// })
 
 const data = ref({
     title: {
@@ -57,7 +68,7 @@ const data = ref({
         isTitleError: false
     },
     category: { value: 'Feature'},
-    status: { value: 'Suggestion'},
+    status: { value: ''},
     description: {
         value: '',
         isDescriptionError: false

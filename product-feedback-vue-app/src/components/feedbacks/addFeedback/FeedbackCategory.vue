@@ -4,7 +4,13 @@
             <span class="text-sm text-[#3A4374] font-bold">Category</span>
             <span class="text-sm text-[#647196] font-normal">Choose a category for your feedback</span>
         </label>
-        <div type="text" class="w-full bg-[#F7F8FD] text-[15px] font-normal rounded-[5px] mt-4 px-6 py-[13px]  text-[#4661E6] flex justify-between items-center cursor-pointer hover:border-[#4661E6] hover:ring-1 hover:ring-[#4661E6]"
+        <div v-if="type === 'Edit'" type="text" class="w-full bg-[#F7F8FD] text-[15px] font-normal rounded-[5px] mt-4 px-6 py-[13px]  text-[#4661E6] flex justify-between items-center cursor-pointer hover:border-[#4661E6] hover:ring-1 hover:ring-[#4661E6]"
+             @click="openMenu"
+        >
+            {{ categoryUpdate.charAt().toUpperCase() + categoryUpdate.slice(1) }}
+            <span v-html="arrowIcon"></span>
+        </div>
+        <div v-else type="text" class="w-full bg-[#F7F8FD] text-[15px] font-normal rounded-[5px] mt-4 px-6 py-[13px]  text-[#4661E6] flex justify-between items-center cursor-pointer hover:border-[#4661E6] hover:ring-1 hover:ring-[#4661E6]"
              @click="openMenu"
         >
             {{ data.category.value }}
@@ -37,12 +43,15 @@
 
 <script setup>
 import {computed, ref} from 'vue'
+import {useStore} from "vuex";
 
-const props = defineProps(['data'])
+const props = defineProps(['data', 'type'])
 const emit = defineEmits(['option-selected'])
+
+const store = useStore()
+
 const isMenuOpen = ref(false),
     option = ref(props.data.category.value)
-
 
 const arrowIcon = computed( () => {
     const arrowUp = `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10 7" fill="none">
@@ -55,14 +64,25 @@ const arrowIcon = computed( () => {
     return isMenuOpen.value ? arrowUp : arrowDown;
 })
 
-
 const openMenu = () => {
     isMenuOpen.value = !isMenuOpen.value
 }
 
 const selectedOption = (selected) => {
-    option.value = selected
-    isMenuOpen.value = false
-    emit('option-selected', selected)
+    if(props.type === 'Edit'){
+        categoryUpdate.value = selected
+        isMenuOpen.value = false
+    } else {
+        option.value = selected
+        isMenuOpen.value = false
+        emit('option-selected', selected)
+    }
 }
+
+const feedbackCategory = computed(() => {
+    return store.getters.getFeedbackCategory
+})
+
+const categoryUpdate = ref(feedbackCategory.value)
+
 </script>

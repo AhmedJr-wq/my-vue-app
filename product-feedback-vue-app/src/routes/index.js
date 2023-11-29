@@ -17,6 +17,11 @@ const router = createRouter({
             name: 'add-feedback',
             path: '/add-feedback',
             component: AddFeedback,
+            beforeEnter: async (to, from, next) => {
+                const store = useStore()
+                await store.dispatch('clearFeedbackItems')
+                next()
+            },
         },
         {
             name: 'feedback-detail',

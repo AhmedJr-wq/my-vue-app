@@ -59,19 +59,18 @@ export default createStore({
         getFeedbackStatus: (state) => state.feedbackStatus
     },
     actions: {
-        getFeedbackList({ commit, dispatch }) {
-            // GET request to API endpoint that fetches feedback data
-            axios.get('http://localhost:9000/feedback')
-                .then((response) => {
-                    commit('getFeedbackList', response.data);
-                })
-                .catch((error) => {
-                    console.error('Error fetching feedback data:', error);
-                });
+        // GET request to API endpoint that fetches feedback data
+        async getFeedbackList({ commit, dispatch }) {
+            try {
+                const response = await axios.get('http://localhost:9000/feedback')
+                commit('getFeedbackList', response.data);
                 dispatch('productsData');
+            } catch (error) {
+                console.error('Error fetching feedback data:', error);
+            }
         },
+        // POST request to API endpoint that adds feedback data
         postFeedback({ commit }, feedback) {
-            // POST request to API endpoint that adds feedback data
             axios.post('http://localhost:9000/feedback', feedback, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,60 +103,58 @@ export default createStore({
                     console.error('Error editing feedback data:', error);
                 });
         },
+        // GET request to API endpoint that fetches feedback data by id
         async getFeedbackById({ commit }, id) {
-            // GET request to API endpoint that fetches feedback data by id
-           const response= await axios.get(`http://localhost:9000/feedback/${id}`)
-                // .then((response) => {
-                    commit('getFeedbackById', response.data);
-                //
-                    let title = response.data.title;
-                    let description = response.data.description;
-                    let category = response.data.category;
-                    let status = response.data.status;
+            try {
+                const response = await axios.get(`http://localhost:9000/feedback/${id}`)
+                commit('getFeedbackById', response.data);
 
-                    // console.log('title', title);
+                let title = response.data.title;
+                let description = response.data.description;
+                let category = response.data.category;
+                let status = response.data.status;
 
-                    commit('getFeedbackTitle', title);
-                    commit('getFeedbackDescription', description);
-                    commit('getFeedbackCategory', category);
-                    commit('getFeedbackStatus', status);
-                //
-                // })
-                // .catch((error) => {
-                //     console.error('Error fetching feedback data:', error);
-                // });
+                commit('getFeedbackTitle', title);
+                commit('getFeedbackDescription', description);
+                commit('getFeedbackCategory', category);
+                commit('getFeedbackStatus', status);
+            } catch (error) {
+                console.error('Error fetching feedback data by id:', error);
+            }
         },
+        // GET request to API endpoint that fetches products data
+        async productsData({ commit, state }) {
+            try {
+                const response = await axios.get('http://localhost:9000/feedback')
+                commit('getAllRequestProducts', response.data);
 
-        productsData({ commit, state }) {
-            // GET request to API endpoint that fetches products data
-            axios.get('http://localhost:9000/feedback')
-                .then((response) => {
-                    commit('getAllRequestProducts', response.data);
+                let planned = [];
+                let inProgress = [];
+                let live = [];
 
-                    let planned = [];
-                    let inProgress = [];
-                    let live = [];
-
-                    state.allRequestProducts.forEach((item) => {
-                        if (item.status?.toLowerCase() === 'planned') {
-                            planned.push(item);
-                        } else if (item.status?.toLowerCase() === 'in-progress') {
-                            inProgress.push(item);
-                        } else {
-                            if(item.status?.toLowerCase() === 'live') {
-                                live.push(item);
-                            }
+                state.allRequestProducts.forEach((item) => {
+                    if (item.status?.toLowerCase() === 'planned') {
+                        planned.push(item);
+                    } else if (item.status?.toLowerCase() === 'in-progress') {
+                        inProgress.push(item);
+                    } else {
+                        if(item.status?.toLowerCase() === 'live') {
+                            live.push(item);
                         }
-                    });
-
-                    commit('getPlannedRequestProducts', planned);
-                    commit('getInProgressRequestProducts', inProgress);
-                    commit('getLiveRequestProducts', live);
-                })
-                .catch((error) => {
-                    console.error('Error fetching products data:', error);
+                    }
                 });
-        }
 
+                commit('getPlannedRequestProducts', planned);
+                commit('getInProgressRequestProducts', inProgress);
+                commit('getLiveRequestProducts', live);
+            } catch (error) {
+                console.error('Error fetching products data:', error);
+            }
+        },
+        clearFeedbackItems({ commit }) {
+            commit('getFeedbackTitle', '');
+            commit('getFeedbackDescription', '');
+            commit('getFeedbackCategory', 'Feature');
+        }
     },
 });
