@@ -1,7 +1,9 @@
 <template>
     <div class="w-1/2 max-w-[540px] mt-24 mb-[187px] mx-auto">
         <GoBackButton :goBack="goBack" />
-        <form class="relative mt-[64px] bg-white w-full rounded-[10px]" :class="formClass" @submit.prevent="postFeedback">
+        <form class="relative mt-[64px] bg-white w-full rounded-[10px]" :class="formClass"
+              @submit.prevent="type === 'Edit' ? editFeedback : postFeedback"
+        >
             <span class="absolute -top-7 left-[42px]">
                 <img :src="imageSource" alt="feedback">
             </span>
@@ -9,7 +11,6 @@
                 <span class="text-2xl text-[#3A4374] font-bold">{{ title }}</span>
                 <FeedbackTitle
                     :data="data"
-                    @validate="validateTitle"
                     type="Edit"
                 />
                 <FeedbackCategory
@@ -25,7 +26,6 @@
                 />
                 <FeedbackDetails
                     :data="data"
-                    @validate="validateDetail"
                     type="Edit"
                 />
             </div>
@@ -105,11 +105,11 @@ const formClass = computed(() => {
     return props.type === 'Edit' ? 'h-[800px]' : 'h-[657px]'
 })
 
-const validateTitle = () => {
+const setTitleError = () => {
     data.value.title.isTitleError = data.value.title.value === '';
 }
 
-const validateDetail = () => {
+const setDescriptionError = () => {
     data.value.description.isDescriptionError = data.value.description.value === '';
 }
 
@@ -122,22 +122,47 @@ const updateStatus = (selectedOption) => {
     data.value.status.value = selectedOption
 }
 
+const validateForm = () => {
+    let isValid = true;
+
+    // Check for title and description errors
+    if (data.value.title.value === '') {
+        setTitleError();
+        isValid = false;
+    }
+    if (data.value.description.value === '') {
+        setDescriptionError();
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+
 const postFeedback = () => {
-    validateTitle()
-    validateDetail()
-    const newFeedback = {
-        title: data.value.title.value,
-        category: data.value.category.value,
-        description: data.value.description.value
-    }
-    if(data.value.title.value === '' || data.value.description.value === '') {
-        return false
+    const isFormValid = validateForm()
+
+    if(!isFormValid) {
+        return false;
     } else {
-        data.value.title.value = ''
-        data.value.description.value = ''
-        data.value.category.value = 'Feature'
-        return store.dispatch('postFeedback', newFeedback)
+        // data.value.title.isTitleError = false
+        // data.value.description.isDescriptionError = false
+        const newFeedback = {
+            title: data.value.title.value,
+            category: data.value.category.value,
+            description: data.value.description.value
+        }
+        // data.value.title.value = ''
+        // data.value.description.value = ''
+        // data.value.category.value = 'Feature'
+        console.log('newFeedback', newFeedback)
+        // return store.dispatch('postFeedback', newFeedback)
     }
+}
+
+const editFeedback = () => {
+    console.log('edited')
+    return store.dispatch('editFeedback', feedbackById.value._id)
 }
 
 const deleteFeedback = () => {
