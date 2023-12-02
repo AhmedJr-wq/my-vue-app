@@ -65,13 +65,15 @@ const store = useStore();
 const data = ref({
     title: {
         value: '',
-        isTitleError: false
+        isTitleError: false,
+        updateTitleError: false
     },
     category: { value: 'Feature'},
     status: { value: ''},
     description: {
         value: '',
-        isDescriptionError: false
+        isDescriptionError: false,
+        updateDescriptionError: false
     }
 })
 
@@ -161,8 +163,8 @@ const postFeedback = () => {
 }
 
 const editFeedback = () => {
-    console.log('edited')
-    return store.dispatch('editFeedback', feedbackById.value._id)
+    console.log('title', data.value.title.value)
+    // return store.dispatch('editFeedback', feedbackById.value._id)
 }
 
 const deleteFeedback = () => {
