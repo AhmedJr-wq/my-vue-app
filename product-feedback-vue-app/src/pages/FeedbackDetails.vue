@@ -77,7 +77,7 @@ const props = defineProps({
 
 //fetching the feedback by id from the store
 const feedbackById = computed(() => {
-    return store.state.feedbackById
+    return store.getters.getFeedbackById
 })
 
 const showReply = ref({})

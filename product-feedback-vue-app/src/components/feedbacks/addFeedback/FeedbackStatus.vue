@@ -7,7 +7,7 @@
         <div type="text" class="w-full bg-[#F7F8FD] text-[15px] font-normal rounded-[5px] mt-4 px-6 py-[13px]  text-[#4661E6] flex justify-between items-center cursor-pointer hover:border-[#4661E6] hover:ring-1 hover:ring-[#4661E6]"
              @click="openMenu"
         >
-            {{ statusUpdate.charAt().toUpperCase() + statusUpdate.slice(1) }}
+            {{ statusUpdate.charAt(0).toUpperCase() + statusUpdate.slice(1) }}
             <span v-html="arrowIcon"></span>
         </div>
         <div v-if="isMenuOpen" class="absolute top-28 w-full border bg-white shadow-md rounded-[10px] flex flex-col z-10">
@@ -37,7 +37,6 @@ import {useStore} from "vuex";
 
 const props = defineProps(['data', 'type'])
 const emit = defineEmits(['option-selected'])
-
 const store = useStore()
 
 const feedbackStatus = computed(() => {
@@ -45,6 +44,7 @@ const feedbackStatus = computed(() => {
 })
 
 const statusUpdate = ref(feedbackStatus.value),
+ option = ref(props.data.status.value),
  isMenuOpen = ref(false)
 
 const arrowIcon = computed( () => {
@@ -64,7 +64,7 @@ const openMenu = () => {
 const selectedOption = (selected) => {
     statusUpdate.value = selected
     isMenuOpen.value = false
-    emit('option-selected', selected)
+    emit('option-selected', selected, 'status')
 }
 
 </script>

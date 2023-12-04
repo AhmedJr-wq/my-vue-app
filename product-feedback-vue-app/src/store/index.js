@@ -93,9 +93,9 @@ export default createStore({
                     console.error('Error deleting feedback data:', error);
                 });
         },
-        editFeedback({ commit }, id) {
-            // PUT request to API endpoint that edits feedback data
-            axios.patch(`http://localhost:9000/feedback/${id}`)
+        editFeedback({ commit }, {_id, updatedFeedback}) {
+            // PATCH request to API endpoint that edits feedback data
+            axios.patch(`http://localhost:9000/feedback/${_id}`, updatedFeedback)
                 .then((response) => {
                     commit('getFeedbackList', response.data);
                 })
@@ -108,6 +108,8 @@ export default createStore({
             try {
                 const response = await axios.get(`http://localhost:9000/feedback/${id}`)
                 commit('getFeedbackById', response.data);
+
+                console.log(response.data)
 
                 let title = response.data.title;
                 let description = response.data.description;

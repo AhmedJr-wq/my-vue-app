@@ -2,7 +2,7 @@
     <div class="w-1/2 max-w-[540px] mt-24 mb-[187px] mx-auto">
         <GoBackButton :goBack="goBack" />
         <form class="relative mt-[64px] bg-white w-full rounded-[10px]" :class="formClass"
-              @submit.prevent="type === 'Edit' ? editFeedback : postFeedback"
+              @submit.prevent="submitForm"
         >
             <span class="absolute -top-7 left-[42px]">
                 <img :src="imageSource" alt="feedback">
@@ -11,22 +11,24 @@
                 <span class="text-2xl text-[#3A4374] font-bold">{{ title }}</span>
                 <FeedbackTitle
                     :data="data"
-                    type="Edit"
+                    :type="type"
+                    @update-title="handleUpdateFormData"
                 />
                 <FeedbackCategory
                     :data="data"
-                    @option-selected="updateCategory"
-                    type="Edit"
+                    :type="type"
+                    @option-selected="handleUpdateFormData"
                 />
                 <FeedbackStatus
                     v-if="type === 'Edit'"
                     :data="data"
-                    @option-selected="updateStatus"
-                    type="Edit"
+                    :type="type"
+                    @option-selected="handleUpdateFormData"
                 />
                 <FeedbackDetails
                     :data="data"
-                    type="Edit"
+                    :type="type"
+                    @update-description="handleUpdateFormData"
                 />
             </div>
             <div class="px-[42px] flex justify-between items-center">
@@ -37,18 +39,18 @@
                     <router-link to="/">
                         <base-button btnText="Cancel" intent="secondary"></base-button>
                     </router-link>
-                    <base-button :btnText="displayText" intent="primary" @click.prevent="postFeedback"></base-button>
+                    <base-button :btnText="displayText" intent="primary" />
                 </div>
             </div>
         </form>
     </div>
 </template>
 
-<script setup>
+<script setup lang="js">
 import FeedbackTitle from "../components/feedbacks/addFeedback/FeedbackTitle.vue";
 import FeedbackCategory from "../components/feedbacks/addFeedback/FeedbackCategory.vue";
 import GoBackButton from "../components/UI/GoBackButton.vue";
-import {computed, ref} from 'vue';
+import {computed, onBeforeMount, reactive, ref, watch} from 'vue';
 import FeedbackStatus from "../components/feedbacks/addFeedback/FeedbackStatus.vue";
 import createImage from '../assets/create.png';
 import editImage from '../assets/edit.png';
@@ -57,12 +59,15 @@ import FeedbackDetails from "../components/feedbacks/addFeedback/FeedbackDetails
 import {useStore} from "vuex";
 
 const props = defineProps({
-    type : String
+    type: {
+        type: String,
+        required: true
+    }
 })
 
 const store = useStore();
 
-const data = ref({
+const data = reactive({
     title: {
         value: '',
         isTitleError: false,
@@ -74,6 +79,39 @@ const data = ref({
         value: '',
         isDescriptionError: false,
         updateDescriptionError: false
+    },
+    upvotes: { value: 0 },
+})
+
+const handleUpdateFormData = (value, type) => {
+    switch (type) {
+        case 'title':
+    data.title.value = value
+      break;
+        case 'category':
+    data.category.value = value
+            break;
+        case 'status':
+    data.status.value = value
+            break;
+        case 'description':
+    data.description.value = value
+            break;
+    }
+}
+
+// watch(data, newval => {
+//     console.log(data, "::::::data")
+// })
+
+const dataType = computed(() => props.type)
+
+onBeforeMount(() => {
+    if (dataType.value === 'Edit') {
+        data.title.value = store.getters.getFeedbackTitle
+        data.category.value = store.getters.getFeedbackCategory
+        data.status.value = store.getters.getFeedbackStatus
+        data.description.value = store.getters.getFeedbackDescription
     }
 })
 
@@ -98,7 +136,6 @@ const title = computed(() => {
     }
 });
 
-
 const displayText = computed(() => {
     return props.type === 'Edit' ? 'Save Changes' : 'Add Feedback';
 })
@@ -108,31 +145,30 @@ const formClass = computed(() => {
 })
 
 const setTitleError = () => {
-    data.value.title.isTitleError = data.value.title.value === '';
+    data.title.isTitleError = data.title.value === '';
 }
 
 const setDescriptionError = () => {
-    data.value.description.isDescriptionError = data.value.description.value === '';
+    data.description.isDescriptionError = data.description.value === '';
 }
 
-
-const updateCategory = (selectedOption) => {
-    data.value.category.value = selectedOption
-}
-
-const updateStatus = (selectedOption) => {
-    data.value.status.value = selectedOption
-}
+// const updateCategory = (selectedOption) => {
+//     data.category.value = selectedOption
+// }
+//
+// const updateStatus = (selectedOption) => {
+//     data.status.value = selectedOption
+// }
 
 const validateForm = () => {
     let isValid = true;
 
     // Check for title and description errors
-    if (data.value.title.value === '') {
+    if (data.title.value === '') {
         setTitleError();
         isValid = false;
     }
-    if (data.value.description.value === '') {
+    if (data.description.value === '') {
         setDescriptionError();
         isValid = false;
     }
@@ -140,36 +176,44 @@ const validateForm = () => {
     return isValid;
 }
 
-
 const postFeedback = () => {
     const isFormValid = validateForm()
 
     if(!isFormValid) {
         return false;
     } else {
-        // data.value.title.isTitleError = false
-        // data.value.description.isDescriptionError = false
         const newFeedback = {
-            title: data.value.title.value,
-            category: data.value.category.value,
-            description: data.value.description.value
+            title: data.title.value,
+            category: data.category.value,
+            status: data.status.value || 'Suggestion',
+            description: data.description.value,
+            upvotes: data.upvotes.value,
         }
-        // data.value.title.value = ''
-        // data.value.description.value = ''
-        // data.value.category.value = 'Feature'
+        data.title.value = ''
+        data.description.value = ''
+        data.category.value = 'Feature'
         console.log('newFeedback', newFeedback)
-        // return store.dispatch('postFeedback', newFeedback)
+        return store.dispatch('postFeedback', newFeedback)
     }
 }
 
 const editFeedback = () => {
-    console.log('title', data.value.title.value)
-    // return store.dispatch('editFeedback', feedbackById.value._id)
+    const updatedFeedback = {
+        title: data.title.value,
+        category: data.category.value,
+        status: data.status.value,
+        description: data.description.value
+    }
+    console.log('updated', updatedFeedback)
+    return store.dispatch('editFeedback',  { _id: feedbackById.value._id, updatedFeedback })
 }
 
 const deleteFeedback = () => {
-    console.log('deleted')
     return store.dispatch('deleteFeedback', feedbackById.value._id)
+}
+
+const submitForm = () => {
+     dataType.value === 'Edit' ? editFeedback() : postFeedback()
 }
 
 </script>

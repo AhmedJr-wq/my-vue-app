@@ -7,7 +7,7 @@
         <div v-if="type === 'Edit'" type="text" class="w-full bg-[#F7F8FD] text-[15px] font-normal rounded-[5px] mt-4 px-6 py-[13px]  text-[#4661E6] flex justify-between items-center cursor-pointer hover:border-[#4661E6] hover:ring-1 hover:ring-[#4661E6]"
              @click="openMenu"
         >
-            {{ categoryUpdate.charAt().toUpperCase() + categoryUpdate.slice(1) }}
+            {{ categoryUpdate.charAt(0).toUpperCase() + categoryUpdate.slice(1) }}
             <span v-html="arrowIcon"></span>
         </div>
         <div v-else type="text" class="w-full bg-[#F7F8FD] text-[15px] font-normal rounded-[5px] mt-4 px-6 py-[13px]  text-[#4661E6] flex justify-between items-center cursor-pointer hover:border-[#4661E6] hover:ring-1 hover:ring-[#4661E6]"
@@ -47,11 +47,15 @@ import {useStore} from "vuex";
 
 const props = defineProps(['data', 'type'])
 const emit = defineEmits(['option-selected'])
-
 const store = useStore()
 
-const isMenuOpen = ref(false),
-    option = ref(props.data.category.value)
+const feedbackCategory = computed(() => {
+    return store.getters.getFeedbackCategory
+})
+
+const categoryUpdate = ref(feedbackCategory.value),
+ isMenuOpen = ref(false),
+ option = ref(props.data.category.value)
 
 const arrowIcon = computed( () => {
     const arrowUp = `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10 7" fill="none">
@@ -75,14 +79,8 @@ const selectedOption = (selected) => {
     } else {
         option.value = selected
         isMenuOpen.value = false
-        emit('option-selected', selected)
     }
+    emit('option-selected', selected, 'category')
 }
-
-const feedbackCategory = computed(() => {
-    return store.getters.getFeedbackCategory
-})
-
-const categoryUpdate = ref(feedbackCategory.value)
 
 </script>
