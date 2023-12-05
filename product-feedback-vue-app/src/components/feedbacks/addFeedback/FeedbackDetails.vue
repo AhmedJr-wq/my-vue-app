@@ -50,6 +50,10 @@ watch(description, (newValue) => {
     emit('updateDescription', newValue, 'description')
 })
 
+watch(feedbackDescription, (newValue) => {
+    description.value = newValue;
+});
+
 const resetError = () => {
     if (props.type === 'Edit') {
         props.data.description.updateDescriptionError = props.data.description.value === ''
@@ -57,9 +61,6 @@ const resetError = () => {
     props.data.description.isDescriptionError = props.data.description.value === ''
 }
 
-watch(feedbackDescription, (newValue) => {
-    description.value = newValue;
-});
 
 </script>
 

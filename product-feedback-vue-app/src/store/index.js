@@ -109,8 +109,6 @@ export default createStore({
                 const response = await axios.get(`http://localhost:9000/feedback/${id}`)
                 commit('getFeedbackById', response.data);
 
-                console.log(response.data)
-
                 let title = response.data.title;
                 let description = response.data.description;
                 let category = response.data.category;

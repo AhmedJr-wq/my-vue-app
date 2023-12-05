@@ -34,9 +34,9 @@
 <script setup>
 import {computed, ref, watch} from "vue";
 import {useStore} from "vuex";
+
 const emit = defineEmits(['updateTitle'])
 const props = defineProps(['data', 'type'])
-
 const store = useStore()
 
 const feedbackTitle = computed(() => {
@@ -54,7 +54,7 @@ watch(feedbackTitle, (newValue) => {
 });
 
 const resetError = () => {
-    if (props.data.title.updateTitleError) {
+    if (props.type === 'Edit') {
         props.data.title.updateTitleError = props.data.title.value === ''
     }
     props.data.title.isTitleError = props.data.title.value === ''
