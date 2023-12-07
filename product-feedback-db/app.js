@@ -4,6 +4,8 @@ const url = 'mongodb://127.0.0.1:27017/product-feedback';
 
 const app = express();
 
+const cors = require('cors');
+
 // Connect to MongoDB
 const connectDatabase = async () => {
     try {
@@ -14,12 +16,16 @@ const connectDatabase = async () => {
         process.exit(1);
     }
 }
+
+app.use(cors());
 app.use(express.json());
+
 app.get('/', (req, res) => {
     res.send('Hello World!');
 })
 
 app.use('/feedback', require('./routes/feedback'));
+
 const startServer = async () => {
     try {
         await connectDatabase();

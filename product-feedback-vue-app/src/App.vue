@@ -1,16 +1,18 @@
 <template>
-    <HelloWorld />
+    <div>
+        <router-view />
+    </div>
 </template>
 
+<script setup>
+import {onMounted} from "vue";
+import store from "./store/index.js";
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+onMounted(() => {
+    store.dispatch('getFeedbackList')
+})
 
-export default {
-    components: {
-        HelloWorld
-    }
-}
 </script>
+
 
 
