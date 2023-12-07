@@ -7,7 +7,9 @@
             <p class="text-[#647196] text-base font-normal">{{ status }}</p>
         </div>
         <div class="mt-2">
-            <h3 class="text-[#3A4374] text-lg font-bold hover:text-[#4661E6] hover:cursor-pointer">{{ title }}</h3>
+            <router-link :to="getFeedbackDetailLink(id)">
+                <h3 class="text-[#3A4374] text-lg font-bold hover:text-[#4661E6] hover:cursor-pointer">{{ title }}</h3>
+            </router-link>
             <p class="text-[#647196] text-base font-normal mb-4">{{ description }}</p>
             <suggestions-tags :title="category"></suggestions-tags>
             <div class="flex justify-between items-center mt-4">
@@ -48,5 +50,9 @@ const statusColor = computed(() => {
     } else {
         return 'bg-[#62BCFA]'
     }
+})
+
+const getFeedbackDetailLink = computed( () => (id) => {
+    return `/edit-feedback/${id}`
 })
 </script>

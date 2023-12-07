@@ -9,20 +9,18 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import Tags from "./Tags.vue";
+import {onMounted, ref} from "vue";
 
-export default {
-    components: { Tags },
-    data() {
-        return {
-            activeTag: "",
-        };
-    },
-    methods: {
-        selectedTag(title) {
-            this.activeTag = title;
-        },
-    },
-};
+const activeTag = ref("");
+const selectedTag = (title) => {
+    activeTag.value = title;
+}
+
+onMounted(() => {
+    activeTag.value = "All";
+})
+
+
 </script>

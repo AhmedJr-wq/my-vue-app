@@ -50,10 +50,11 @@
 </template>
 
 <script setup>
-import {computed, ref} from "vue";
-import store from "../../store/index.js";
+import {computed, onMounted, ref} from "vue";
+import {useStore} from "vuex";
 
 const { props } = defineProps(["type"]);
+const store = useStore();
 
 const option = ref('Most upvotes')
 const isMenuOpen = ref(false)
@@ -83,14 +84,34 @@ const headerClass = computed(() => (type) => {
 const openMenu = () => {
      isMenuOpen.value = !isMenuOpen.value
 }
+const sortedData = computed(() => {
+    return store.getters.getData
+})
 
 const selectedOption = (selected) => {
     option.value = selected
+    store.dispatch('sortData', selected)
     isMenuOpen.value = false
 }
+
 
 const disableSort = computed(() => {
     return store.state.feedbackList.length === 0
 })
+
+
+
+onMounted(() => {
+    store.dispatch('sortData')
+})
+
+const data = computed(() => {
+    return store.getters.getData
+})
+
+console.log('data',data)
+
+
+
 
 </script>

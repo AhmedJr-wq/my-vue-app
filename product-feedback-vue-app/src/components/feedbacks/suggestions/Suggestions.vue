@@ -8,13 +8,15 @@
                     <span><img src="../../../assets/upvote.png" alt="upvote"></span>
                     <span class="text-[13px] text-[#3A4374] font-bold mt-2">{{ upvotes }}</span>
                 </div>
-                <router-link :to="getFeedbackDetailLink( id )" class="flex flex-col">
-                    <span class="text-[18px] text-[#3A4374] font-bold" :class="suggestionDetailClass">{{ title }}</span>
+                <div class="flex flex-col justify-center">
+                    <router-link :to="getFeedbackDetailLink( id )">
+                        <span class="text-[18px] text-[#3A4374] font-bold" :class="suggestionDetailClass">{{ title }}</span>
+                    </router-link>
                     <span class="text-base text-[#647196] font-normal mb-3">{{ description }}</span>
                     <span>
                         <suggestions-tags :title="category"></suggestions-tags>
                     </span>
-                </router-link>
+                </div>
             </div>
             <div class="w-11 h-[23px] flex justify-around items-center">
                 <img src="../../../assets/icon-comments.png" alt="icon-comments">

@@ -9,10 +9,12 @@ export default createStore({
         inProgressRequestProducts: [],
         liveRequestProducts: [],
         allRequestProducts: [],
+        data: [],
         feedbackTitle: '',
         feedbackDescription: '',
         feedbackCategory: '',
         feedbackStatus: '',
+        selectSortMethod: '',
     },
     mutations: {
         getFeedbackList(state, feedbackList) {
@@ -44,6 +46,12 @@ export default createStore({
         },
         getFeedbackStatus(state, status) {
             state.feedbackStatus = status;
+        },
+        setData(state, data) {
+            state.data = data
+        },
+        setSelectedSortMethod(state, selectSortMethod) {
+            state.selectSortMethod = selectSortMethod
         }
     },
     getters: {
@@ -56,7 +64,10 @@ export default createStore({
         getFeedbackTitle: (state) => state.feedbackTitle,
         getFeedbackDescription: (state) => state.feedbackDescription,
         getFeedbackCategory: (state) => state.feedbackCategory,
-        getFeedbackStatus: (state) => state.feedbackStatus
+        getFeedbackStatus: (state) => state.feedbackStatus,
+        getData: (state) => state.data,
+        getSelectSortMethod: (state) => state.selectSortMethod
+
     },
     actions: {
         // GET request to API endpoint that fetches feedback data
@@ -155,6 +166,32 @@ export default createStore({
             commit('getFeedbackTitle', '');
             commit('getFeedbackDescription', '');
             commit('getFeedbackCategory', 'Feature');
+        },
+        async sortData({ commit }, selected) {
+            try {
+                const response = await axios.get('http://localhost:9000/feedback')
+                // commit('setData', response.data);
+
+                let sortData = response.data.slice()
+
+                if (selected === 'Most upvotes') {
+                    sortData.sort((a, b) => a.upvotes < b.upvotes ? 1 : -1);
+                } else if (selected === 'Least upvotes') {
+                    sortData.sort((a, b) => a.upvotes > b.upvotes ? 1 : -1);
+                } else if (selected === 'Most comments') {
+                    sortData.sort((a, b) => a.comments.length < b.comments.length ? 1 : -1);
+                } else if (selected === 'Least comments') {
+                    sortData.sort((a, b) => a.comments.length > b.comments.length ? 1 : -1);
+                }
+
+                commit('setData', sortData);
+                commit('setSelectedSortMethod', selected);
+
+            } catch (error) {
+                console.error('Error fetching feedback data:', error);
+            }
+
+
         }
     },
 });
