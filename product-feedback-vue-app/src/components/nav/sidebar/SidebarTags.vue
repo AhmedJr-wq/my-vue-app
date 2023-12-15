@@ -11,16 +11,23 @@
 
 <script setup>
 import Tags from "./Tags.vue";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
+import {useStore} from "vuex";
 
+const store = useStore();
 const activeTag = ref("");
-const selectedTag = (title) => {
-    activeTag.value = title;
+const selectedTag = (category) => {
+    activeTag.value = category;
+    store.dispatch('sortSelectedCategory', category)
 }
 
 onMounted(() => {
     activeTag.value = "All";
+    store.dispatch('sortSelectedCategory')
 })
 
+const data = computed(() => {
+    return store.getters.getFeedbackList
+})
 
 </script>

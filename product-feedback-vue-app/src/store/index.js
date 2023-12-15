@@ -9,12 +9,10 @@ export default createStore({
         inProgressRequestProducts: [],
         liveRequestProducts: [],
         allRequestProducts: [],
-        data: [],
         feedbackTitle: '',
         feedbackDescription: '',
         feedbackCategory: '',
         feedbackStatus: '',
-        selectSortMethod: '',
     },
     mutations: {
         getFeedbackList(state, feedbackList) {
@@ -46,12 +44,6 @@ export default createStore({
         },
         getFeedbackStatus(state, status) {
             state.feedbackStatus = status;
-        },
-        setData(state, data) {
-            state.data = data
-        },
-        setSelectedSortMethod(state, selectSortMethod) {
-            state.selectSortMethod = selectSortMethod
         }
     },
     getters: {
@@ -65,9 +57,6 @@ export default createStore({
         getFeedbackDescription: (state) => state.feedbackDescription,
         getFeedbackCategory: (state) => state.feedbackCategory,
         getFeedbackStatus: (state) => state.feedbackStatus,
-        getData: (state) => state.data,
-        getSelectSortMethod: (state) => state.selectSortMethod
-
     },
     actions: {
         // GET request to API endpoint that fetches feedback data
@@ -170,8 +159,6 @@ export default createStore({
         async sortData({ commit }, selected) {
             try {
                 const response = await axios.get('http://localhost:9000/feedback')
-                // commit('setData', response.data);
-
                 let sortData = response.data.slice()
 
                 if (selected === 'Most upvotes') {
@@ -184,14 +171,30 @@ export default createStore({
                     sortData.sort((a, b) => a.comments.length > b.comments.length ? 1 : -1);
                 }
 
-                commit('setData', sortData);
-                commit('setSelectedSortMethod', selected);
-
+                commit('getFeedbackList', sortData);
+                return sortData
             } catch (error) {
                 console.error('Error fetching feedback data:', error);
             }
+        },
+        async sortSelectedCategory({ commit }, category) {
+            try {
+                const response = await axios.get('http://localhost:9000/feedback')
+                let selectedCategory = response.data
 
+                console.log(selectedCategory)
 
+                // if(category === 'All') {
+                //     selectedCategory = response.data
+                // } else {
+                //     selectedCategory.filter(item => item.category === category);
+                // }
+                
+                // commit('getFeedbackList', selectedCategory);
+                // return selectedCategory
+            } catch (error) {
+                console.error('Error fetching feedback data:', error);
+            }
         }
-    },
+    }
 });

@@ -84,9 +84,6 @@ const headerClass = computed(() => (type) => {
 const openMenu = () => {
      isMenuOpen.value = !isMenuOpen.value
 }
-const sortedData = computed(() => {
-    return store.getters.getData
-})
 
 const selectedOption = (selected) => {
     option.value = selected
@@ -94,24 +91,8 @@ const selectedOption = (selected) => {
     isMenuOpen.value = false
 }
 
-
 const disableSort = computed(() => {
     return store.state.feedbackList.length === 0
 })
-
-
-
-onMounted(() => {
-    store.dispatch('sortData')
-})
-
-const data = computed(() => {
-    return store.getters.getData
-})
-
-console.log('data',data)
-
-
-
 
 </script>
